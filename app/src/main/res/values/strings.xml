@@ -5,5 +5,20 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--for content_main main screen-->
+    <string name="scan">SCAN</string>
+    <string name="type_plu">Type PLU: </string>
+    <string name="price_lbs">Price/lbs: </string>
+    <string name="lbs">Pounds: </string>
+    <string name="add">ADD</string>
+    <string name="select">Select Store: </string>
+    <string name="total_price">Total: </string>
+    <string name="or_option">-or-</string>
+
+<!-- for side bar -->
+    <string name="current">Current Cart</string>
+    <string name="past">Past Purchases</string>
+    <string name="pantry">My Pantry</string>
     <string name="title_activity_scan">ScanActivity</string>
 </resources>
