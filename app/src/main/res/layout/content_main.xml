@@ -9,137 +9,38 @@
     tools:showIn="@layout/app_bar_main">
 
 
-    <!-- ID is scan_button-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/scan"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/scan_button"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_frame"
+        android:tag="main_frag"
+        android:layout_weight="1"
+        android:name="edu.fsu.cs.mobile.groclist.mainFragment"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/current_frame"
+        android:tag="current_list"
+        android:layout_weight="1"
+        android:name="edu.fsu.cs.mobile.groclist.currentFragment"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/past_frame"
+        android:tag="past_list"
+        android:layout_weight="1"
+        android:name="edu.fsu.cs.mobile.groclist.pastFragment"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/or_option"
-        android:layout_below="@id/scan_button"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/or"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/or"
-        android:text="@string/type_plu"
-        android:id="@+id/type_view"
-        android:textSize="20sp"
-        android:layout_marginBottom="20dp"/>
-
-    <!--ID is type-->
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_alignBottom="@+id/type_view"
-        android:layout_toEndOf="@+id/type_view"
-        android:id="@+id/type"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/price_lbs"
-        android:layout_below="@id/type_view"
-        android:layout_marginBottom="20dp"
-        android:textSize="20sp"
-        android:id="@+id/price_view"
-        />
-
-    <!--ID is price-->
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/type_view"
-        android:layout_toRightOf="@id/price_view"
-        android:layout_alignBottom="@id/price_view"
-        android:layout_marginStart="25dp"
-        android:id="@+id/price"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbs"
-        android:layout_below="@id/price_view"
-        android:layout_marginBottom="20dp"
-        android:textSize="20sp"
-        android:id="@+id/pounds_view"/>
-
-    <!--ID is pounds -->
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/price_view"
-        android:layout_toRightOf="@id/pounds_view"
-        android:layout_alignBottom="@id/pounds_view"
-        android:layout_marginStart="38dp"
-        android:id="@+id/pounds"
-        />
-
-    <!-- ID is add_button -->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:layout_below="@id/pounds_view"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/add_button"
-        android:layout_marginBottom="30dp"/>
-
-    <!--option to select store based off of GPS - tenative-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select"
-        android:layout_below="@id/add_button"
-        android:layout_marginBottom="80dp"
-        android:textSize="20sp"
-        android:id="@+id/store_view"
-        />
-
-    <!-- not sure if we would use a spinner but ID is store -->
-    <Spinner
-        android:layout_width="200dp"
-        android:layout_marginStart="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/add_button"
-        android:layout_toRightOf="@id/store_view"
-        android:id="@+id/store">
-
-    </Spinner>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_price"
-        android:layout_below="@id/store_view"
-        android:layout_marginBottom="20dp"
-        android:textSize="30sp"
-        android:id="@+id/total_view"
-
-
-        />
-
-    <!-- ID is total -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/total"
-        android:layout_below="@id/store_view"
-        android:text="0"
-        android:layout_toRightOf="@id/total_view"
-        android:textSize="30sp"
-        android:layout_marginStart="20dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pantry_frame"
+        android:tag="pantry_list"
+        android:layout_weight="1"
+        android:name="edu.fsu.cs.mobile.groclist.pantryFragment"
         />
 
 
