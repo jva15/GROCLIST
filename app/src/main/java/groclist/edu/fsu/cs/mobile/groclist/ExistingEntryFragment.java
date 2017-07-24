@@ -30,7 +30,7 @@ public class ExistingEntryFragment extends Fragment {
     public String ip = null;
     public double itemprice = 0;
 
-    private OnFragmentInteractionListener mListener;
+    public OnFragmentInteractionListener mListener;
 
     public ExistingEntryFragment() {
         // Required empty public constructor
@@ -67,13 +67,15 @@ public class ExistingEntryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         View EEview =  inflater.inflate(R.layout.fragment_existing_entry, container, false);
-        Button addbutton = (Button) EEview.findViewById(R.id.add_button);
+        TextView TV = (TextView) EEview.findViewById(R.id.textView2);
+        Button addbutton = (Button) EEview.findViewById(R.id.add_existing);
         TextView itempricev = (TextView) EEview.findViewById(R.id.new_entered_price);
 
         ip = itempricev.getText().toString();
 
-        itemprice = Double.parseDouble(ip);
+        //TV.setText(mParam2);
 
 
         addbutton.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +84,7 @@ public class ExistingEntryFragment extends Fragment {
 
                 if(!ip.equals(""))
                 {
+                    itemprice = Double.parseDouble(ip);
                     mListener.onnewprice(itemprice);
 
                 }
@@ -94,11 +97,7 @@ public class ExistingEntryFragment extends Fragment {
         return EEview;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -128,7 +127,6 @@ public class ExistingEntryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
         void onnewprice(double newprice);
     }
 }

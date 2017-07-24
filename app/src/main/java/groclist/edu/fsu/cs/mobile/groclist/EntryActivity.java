@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class EntryActivity extends AppCompatActivity {
+public class EntryActivity extends AppCompatActivity implements ExistingEntryFragment.OnFragmentInteractionListener,NewEntryFragment.OnFragmentInteractionListener {
 
     public FragmentManager FM = getSupportFragmentManager();
     public FragmentTransaction FT;
@@ -52,19 +52,23 @@ public class EntryActivity extends AppCompatActivity {
         //TODO add Entry to user database
 
 
+        returntomain();
     }
 
     public void onnewprice(double newprice)
     {
 
-        //TODO update Entry in database with new price in user table
+        //TODO update/add Entry in database with new price in user table
 
-
-
-
+        returntomain();
     }
 
+    public void returntomain(){
+        Intent RTM = new Intent(this,MainActivity.class);
+        startActivity(RTM);
+        finish();
 
+    }
 
 
 }
