@@ -10,12 +10,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class plu_db_helper {
-    private static final String DB_PATH = "content://edu.fsu.cs.mobile.groclist.pludb_1.0.csv";
-    private static final String DB_NAME = "my.db";
+
+    private static final String DB_NAME = "pludb_1.0.sqlite";
 
     public static void createDatabaseIfNotExists(Context context) throws IOException {
         boolean createDb = false;
-
+        final String DB_PATH =  context.getFilesDir().getPath();//"/data/data/edu.fsu.cs.mobile.groclist/databases/"; // yeah....idk
         File dbDir = new File(DB_PATH);
         File dbFile = new File(DB_PATH + DB_NAME);
         if (!dbDir.exists()) {
@@ -62,7 +62,8 @@ public class plu_db_helper {
         }
     }
 
-    public static SQLiteDatabase getStaticDb() {
-        return SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
-    }
+    //public static SQLiteDatabase getStaticDb() {
+
+      //  return SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
+    //}
 }
