@@ -1,8 +1,10 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
-
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +18,51 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 
 import groclist.edu.fsu.cs.mobile.groclist.mainFragment;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import groclist.edu.fsu.cs.mobile.groclist.IntentIntegrator;
+import groclist.edu.fsu.cs.mobile.groclist.IntentResult;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public void Scanitems(View V)
+    {
+
+        IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+        scanIntegrator.initiateScan();
+
+
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //retrieve scan result
+
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+        //we have a result
+            String scanContent = scanningResult.getContents();
+            String scanFormat = scanningResult.getFormatName();
+            Intent toEA = new Intent(this,EntryActivity.class);
+            toEA.putExtra("Content",scanContent);
+            toEA.putExtra("Format",scanFormat);
+
+            startActivity(toEA);
+
+        }
+        else{
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +137,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-       // Toast toast = Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_LONG);
-        //toast.show();
         int id = item.getItemId();
 
         if (id == R.id.current_cart) {
@@ -310,12 +351,9 @@ public class MainActivity extends AppCompatActivity
 
 
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
     }
-
-
-}
-
 
