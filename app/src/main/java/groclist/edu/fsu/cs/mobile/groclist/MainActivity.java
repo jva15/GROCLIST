@@ -39,17 +39,22 @@ public class MainActivity extends AppCompatActivity
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult != null) {
         //we have a result
-            TextView TV = (TextView) findViewById(R.id.scantest);
-
             String scanContent = scanningResult.getContents();
             String scanFormat = scanningResult.getFormatName();
-            TV.setText(scanContent+" : "+scanFormat);
+            Intent toEA = new Intent(this,EntryActivity.class);
+            toEA.putExtra("Content",scanContent);
+            toEA.putExtra("Format",scanFormat);
+
+            startActivity(toEA);
+
         }
         else{
             Toast toast = Toast.makeText(getApplicationContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
+
+
 
 
     }
