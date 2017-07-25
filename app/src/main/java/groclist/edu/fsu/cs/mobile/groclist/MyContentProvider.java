@@ -1,5 +1,15 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
+
+        import android.content.Context;
+        import android.database.sqlite.SQLiteDatabase;
+
+        import java.io.File;
+        import java.io.FileOutputStream;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.io.OutputStream;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,17 +21,19 @@ import android.net.Uri;
 
 public class MyContentProvider extends ContentProvider {
     public static final int DBVERSION = 1;
-    public final static String DBNAME = "PLU_DB";
-    public final static String TABLE_NAMESTABLE = "PLUTable";
+    public final static String DBNAME = "GROC_DB";
+    public final static String TABLE_NAME = "UserTable";
     private static final String SQL_CREATE_MAIN =
-            "CREATE TABLE PLUTable ( " +
+            "CREATE TABLE UserTable ( " +
                     "PLU INTEGER PRIMARY KEY, " +
-                    "COMMODITY TEXT, " +
-                    "VARIETY TEXT, " +
-                    "EXPIRATION)";
+                    "UPC INTEGER PRIMARY KEY, " +
+                    "PRICE FLOAT, " +
+                    "TIMESTAMP DATE, " +
+                    "LOCATION TEXT, " +
+                    "DESCRIPTION TEXT)";
 
     public static final Uri CONTENT_URI =
-            Uri.parse("content://edu.fsu.cs.mobile.proj2.groclist");
+            Uri.parse("content://groclist.edu.fsu.cs.mobile.groclist.MyContentProvider");
 
 
     protected static final class dbhelper extends SQLiteOpenHelper {//hacked from slides
@@ -43,60 +55,50 @@ public class MyContentProvider extends ContentProvider {
 
         @Override
     public boolean onCreate() {
-        // TODO: Create Database
-
+        //Create Database
         dbhelper helper = new dbhelper(getContext());
-
         return true;
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: insert Employee information
-        String mEmployeeID = values.getAsString("mEmployeeID");
-        //String mName = values.getAsString("mName");
-        //String mEmail = values.getAsString("mEmail");
-        //String mGender = values.getAsString("mGender");
-        //String mPassword = values.getAsString("mPassword");
-        //String mDepartment = values.getAsString("mDepartment");
-
+        //insert information
+        String PLU = values.getAsString("PLU");
 
         dbhelper help = new dbhelper(getContext());
 
         Long id = help.getWritableDatabase()
                 .insert("PLUTable", null, values);
-        return Uri.withAppendedPath(CONTENT_URI, mEmployeeID);
+        return Uri.withAppendedPath(CONTENT_URI, PLU);
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: update Employee information
 
         dbhelper help = new dbhelper(getContext());
 
-        return help.getWritableDatabase().update("EmployeeTable", values, selection,selectionArgs);
+        return help.getWritableDatabase().update("PLUTable", values, selection,selectionArgs);
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // TODO: delete Employee information
-
+        //delete information
 
         dbhelper help = new dbhelper(getContext());
 
-        return help.getWritableDatabase().delete(TABLE_NAMESTABLE, selection,selectionArgs);
+        return help.getWritableDatabase().delete(TABLE_NAME, selection,selectionArgs);
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: query Employee by selection
+
 
 
         dbhelper help = new dbhelper(getContext());
 
-        return help.getReadableDatabase().query("EmployeeTable", projection, selection, selectionArgs,null,null,sortOrder);
+        return help.getReadableDatabase().query("UserTable", projection, selection, selectionArgs,null,null,sortOrder);
     }
 
     @Override

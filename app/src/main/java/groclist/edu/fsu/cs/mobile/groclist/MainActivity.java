@@ -1,5 +1,8 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,23 +15,55 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static groclist.edu.fsu.cs.mobile.groclist.plu_db_helper.createDatabaseIfNotExists;
+import static groclist.edu.fsu.cs.mobile.groclist.plu_db_helper.getStaticDb;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
 
+        implements NavigationView.OnNavigationItemSelectedListener {
+    SQLiteDatabase plu_db;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            createDatabaseIfNotExists(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         setContentView(R.layout.activity_main);
+
+        this.listView = (ListView) findViewById(R.id.listView);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        List<String> quotes = databaseAccess.getQuotes();
+        databaseAccess.close();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quotes);
+        this.listView.setAdapter(adapter);
+       // try {
+         //   createDatabaseIfNotExists(getApplicationContext());
+        //} catch (IOException e) {
+          //  e.printStackTrace();
+        //}
+        //plu_db = getStaticDb(getApplicationContext());
+/*
+        ListView listView = (ListView) findViewById(R.id.listView);
+        List<String> list = new ArrayList<>();
+        Cursor cursor = plu_db.rawQuery("SELECT *", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            list.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+*/
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

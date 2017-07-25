@@ -1,4 +1,4 @@
-package groclist.edu.fsu.cs.mobile.groclist;
+/*package groclist.edu.fsu.cs.mobile.groclist;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,11 +11,11 @@ import java.io.OutputStream;
 
 public class plu_db_helper {
 
-    private static final String DB_NAME = "pludb_1.0.sqlite";
+    private static final String DB_NAME = "databases/pludb_1.0.sqlite";
 
     public static void createDatabaseIfNotExists(Context context) throws IOException {
         boolean createDb = false;
-        final String DB_PATH =  context.getFilesDir().getPath();//"/data/data/edu.fsu.cs.mobile.groclist/databases/"; // yeah....idk
+        final String DB_PATH =  context.getFilesDir().getPath();
         File dbDir = new File(DB_PATH);
         File dbFile = new File(DB_PATH + DB_NAME);
         if (!dbDir.exists()) {
@@ -62,8 +62,11 @@ public class plu_db_helper {
         }
     }
 
-    //public static SQLiteDatabase getStaticDb() {
+    public static SQLiteDatabase getStaticDb(Context context) {
+        final String DB_PATH =  context.getFilesDir().getPath();
+        return SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
+    }
 
-      //  return SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
-    //}
 }
+
+*/
