@@ -16,19 +16,9 @@
     <string name="total_price">Total: </string>
     <string name="or_option">-or-</string>
 
-    <!-- for side bar -->
+<!-- for side bar -->
     <string name="current">Current Cart</string>
     <string name="past">Past Purchases</string>
     <string name="pantry">My Pantry</string>
-
-    <string name="add_button">ADD</string>
-
-    <!--exijsting entry fragment -->
-    <string name="new_price">New Price?</string>
-
-    <!--new entry fragment -->
-    <string name="whatisit">What is this?</string>
-    <string name="how_much">How much is it?</string>
-
-
+    <string name="home">Home</string>
 </resources>
