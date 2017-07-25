@@ -71,9 +71,9 @@ public class ExistingEntryFragment extends Fragment {
         View EEview =  inflater.inflate(R.layout.fragment_existing_entry, container, false);
         TextView TV = (TextView) EEview.findViewById(R.id.textView2);
         Button addbutton = (Button) EEview.findViewById(R.id.add_existing);
-        TextView itempricev = (TextView) EEview.findViewById(R.id.new_entered_price);
+        final TextView itempricev = (TextView) EEview.findViewById(R.id.new_entered_price);
 
-        ip = itempricev.getText().toString();
+
 
         //TV.setText(mParam2);
 
@@ -82,6 +82,7 @@ public class ExistingEntryFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                ip = itempricev.getText().toString();
                 if(!ip.equals(""))
                 {
                     itemprice = Double.parseDouble(ip);

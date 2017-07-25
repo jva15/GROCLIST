@@ -70,17 +70,18 @@ public class NewEntryFragment extends Fragment {
         View NEview = inflater.inflate(R.layout.fragment_new_entry, container, false);
 
         Button addbutton = (Button) NEview.findViewById(R.id.add_button);
-        TextView itemnamev = (TextView)NEview.findViewById(R.id.new_item);
-        TextView itempricev = (TextView) NEview.findViewById(R.id.How_much);
+        final TextView itemnamev = (TextView)NEview.findViewById(R.id.new_item);
+        final TextView itempricev = (TextView) NEview.findViewById(R.id.How_much);
 
-        itemname = itemnamev.getText().toString();
-        String ip = itempricev.getText().toString();
-        itemprice = Double.parseDouble(ip);
 
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                itemname = itemnamev.getText().toString();
+                String ip = itempricev.getText().toString();
+                itemprice = Double.parseDouble(ip);
 
                 if(!itemname.equals(null))
                 {
