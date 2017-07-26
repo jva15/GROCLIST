@@ -59,15 +59,27 @@ public class DatabaseAccess {
      *
      * @return a List of quotes
      */
-    public List<String> getQuotes() {
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM PLU_Table", null);
+    public List<String> getQuotes(String arg1 ) {
+        this.open();
+
+        String wherestatement = " WHERE ";
+        if(arg1.equals(""))
+        {wherestatement="";}
+        else wherestatement = wherestatement + arg1;
+
+
+            List<String> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM PLU_Table"+wherestatement, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             list.add(cursor.getString(0));
             cursor.moveToNext();
         }
         cursor.close();
+        this.close();
         return list;
+    }
+    public List<String> getQuotes(){
+        return getQuotes("");
     }
 }
