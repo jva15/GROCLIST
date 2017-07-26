@@ -30,7 +30,7 @@ public class NewEntryFragment extends Fragment {
     private String mParam2;
 
     public String itemname = null;
-    double itemprice = 0;
+    float itemprice = 0;
     private OnFragmentInteractionListener mListener;
 
     public NewEntryFragment() {
@@ -81,7 +81,7 @@ public class NewEntryFragment extends Fragment {
 
                 itemname = itemnamev.getText().toString();
                 String ip = itempricev.getText().toString();
-                itemprice = Double.parseDouble(ip);
+                itemprice = Float.parseFloat(ip);
 
                 if(!itemname.equals(null))
                 {
@@ -126,6 +126,6 @@ public class NewEntryFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
 
-        void oninsertnewEntry(String P1,double P2);
+        void oninsertnewEntry(String P1,float P2);
     }
 }

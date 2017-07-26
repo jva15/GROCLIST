@@ -1,6 +1,8 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +15,8 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
 
     String BarContent;
     String BarFormat;
-
+    int pluorupc=0;
+    String name;
     boolean exists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +26,32 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
         BarContent = entryI.getStringExtra("Content");
         BarFormat = entryI.getStringExtra("Format");
 
-        /*TODO: replace 'exist' statment with code for querying the database for the entry
-        * set exists to true if in the database or false otherwise
+        /*TODO: check if works
         */
-        exists = true;
+        exists = false;
+        Cursor itemsearch = getContentResolver().query(MyContentProvider.CONTENT_URI,null,null,null,null);
+        if(itemsearch!=null) {
+            while (itemsearch.moveToNext()) {
+                if (itemsearch.getString(0).equals(BarContent)) {
+                    exists = true;
+                    pluorupc = 1;
+
+
+                }
+                if (itemsearch.getString(1).equals(BarContent)) {
+                    exists = true;
+                    pluorupc = 2;
+                }
+            }
+            itemsearch.close();
+        }
+
         //
-        if(!exists) onnewEntryfound();
-        else onexistingEntryfound();
+        if(!exists)
+            onnewEntryfound();
+        else {
+            onexistingEntryfound();
+            name = itemsearch.getString(5);};
     }
 
 
@@ -47,18 +69,41 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
         FT.commit();
 
     }
-    public void oninsertnewEntry(String itemname,double itemprice ){
+    public void oninsertnewEntry(String itemname,float itemprice ){
 
         //TODO add Entry to user database
+        ContentValues CV = new ContentValues();
+        if(pluorupc==1)
+            CV.put("PLU",BarContent);
+        if(pluorupc==2)
+            CV.put("UPC",BarContent);
+        CV.put("PRICE",itemprice);
+        CV.put("DESCRIPTION",itemname);
+        CV.put("TOTALPRICE",itemprice);
+        CV.put("LISTSTATUS",0);
+        getContentResolver().insert(MyContentProvider.CONTENT_URI,CV);
+
 
 
         returntomain();
     }
 
-    public void onnewprice(double newprice)
+    public void onnewprice(float newprice)
     {
 
-        //TODO update/add Entry in database with new price in user table
+
+        ContentValues CV = new ContentValues();
+        if(pluorupc==1)
+        CV.put("PLU",BarContent);
+        if(pluorupc==2)
+            CV.put("UPC",BarContent);
+        CV.put("PRICE",newprice);
+        CV.put("DESCRIPTION",name);
+        CV.put("TOTALPRICE",newprice);
+        CV.put("LISTSTATUS",0);
+        getContentResolver().insert(MyContentProvider.CONTENT_URI,CV);
+
+
 
         returntomain();
     }

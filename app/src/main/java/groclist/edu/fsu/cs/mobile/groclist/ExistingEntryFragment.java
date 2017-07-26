@@ -28,7 +28,7 @@ public class ExistingEntryFragment extends Fragment {
     private String mParam2;
 
     public String ip = null;
-    public double itemprice = 0;
+    public float itemprice = 0;
 
     public OnFragmentInteractionListener mListener;
 
@@ -85,7 +85,7 @@ public class ExistingEntryFragment extends Fragment {
                 ip = itempricev.getText().toString();
                 if(!ip.equals(""))
                 {
-                    itemprice = Double.parseDouble(ip);
+                    itemprice = Float.parseFloat(ip);
                     mListener.onnewprice(itemprice);
 
                 }
@@ -128,6 +128,6 @@ public class ExistingEntryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onnewprice(double newprice);
+        void onnewprice(float newprice);
     }
 }
