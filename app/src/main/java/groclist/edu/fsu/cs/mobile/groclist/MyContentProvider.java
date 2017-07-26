@@ -9,8 +9,9 @@ package groclist.edu.fsu.cs.mobile.groclist;
         import java.io.IOException;
         import java.io.InputStream;
         import java.io.OutputStream;
+        import java.util.Calendar;
 
-import android.content.ContentProvider;
+        import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -25,10 +26,10 @@ public class MyContentProvider extends ContentProvider {
     public final static String TABLE_NAME = "UserTable";
     private static final String SQL_CREATE_MAIN =
             "CREATE TABLE UserTable ( " +
-                    "PLU INTEGER PRIMARY KEY, " +
-                    "UPC INTEGER PRIMARY KEY, " +
+                    "PLU INTEGER , " +
+                    "UPC INTEGER , " +
                     "PRICE FLOAT, " +
-                    "TIMESTAMP DATE, " +
+                    "TIMESTAMP INTEGER PRIMARY KEY, " +
                     "LOCATION TEXT, " +
                     "DESCRIPTION TEXT)";
 
@@ -65,6 +66,10 @@ public class MyContentProvider extends ContentProvider {
         //insert information
         String PLU = values.getAsString("PLU");
         String UPC = values.getAsString("UPC");
+        Calendar c = Calendar.getInstance();
+        int seconds = c.get(Calendar.SECOND);
+
+        values.put("TIMESTAMP",seconds);
 
         dbhelper help = new dbhelper(getContext());
 
