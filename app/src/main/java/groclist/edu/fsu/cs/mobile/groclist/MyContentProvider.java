@@ -26,8 +26,8 @@ public class MyContentProvider extends ContentProvider {
     public final static String TABLE_NAME = "UserTable";
     private static final String SQL_CREATE_MAIN =
             "CREATE TABLE UserTable ( " +
-                    "PLU INTEGER , " +
-                    "UPC INTEGER , " +
+                    "PLU TEXT , " +
+                    "UPC TEXT , " +
                     "PRICE FLOAT, " +
                     "TIMESTAMP INTEGER PRIMARY KEY, " +
                     "LOCATION TEXT, " +
