@@ -16,6 +16,7 @@
         android:text="@string/scan"
         android:layout_centerHorizontal="true"
         android:id="@+id/scan_button"
+        android:onClick="Scanitems"
         />
 
     <TextView
