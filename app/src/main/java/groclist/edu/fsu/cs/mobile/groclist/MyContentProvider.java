@@ -78,7 +78,7 @@ public class MyContentProvider extends ContentProvider {
         int seconds = c.get(Calendar.SECOND);
 
         values.put("TIMESTAMP",seconds);
-
+        values.put("LOCATION","0,0");
         dbhelper help = new dbhelper(getContext());
 
         Long id = help.getWritableDatabase()
