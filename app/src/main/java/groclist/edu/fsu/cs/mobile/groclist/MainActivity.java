@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity
 
         this.listView = (ListView) findViewById(R.id.listView);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        databaseAccess.open();
+
         List<String> quotes = databaseAccess.getQuotes();
-        databaseAccess.close();
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quotes);
         this.listView.setAdapter(adapter);
