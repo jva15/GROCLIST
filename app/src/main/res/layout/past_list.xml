@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Apples" />
+        android:text="Gala Apples" />
 
     <Button
         android:id="@+id/graph_update_button"

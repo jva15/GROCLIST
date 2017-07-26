@@ -14,6 +14,7 @@ import com.androidplot.Plot;
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.StepMode;
 import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
@@ -56,10 +57,10 @@ public class pastFragment extends Fragment {
         final String[] domainLabels = {"Jan", "Feb", "Mar", "Apr", "May",
         "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-        Number[] series1Numbers = {1.21, 1.25, 1.23, 1.23, 1.24,
-                1.23, 1.26, 1.25, 1.24, 1.23, 1.22, 1.23};
+        Number[] series1Numbers = {1.27, 1.25, 1.23, 1.23, 1.24,
+                1.23, 1.26, 1.25, 1.26, 1.24, 1.22, 1.23};
 
-        Number[] series2Numbers = {1.29, 1.28, 1.27, 1.27, 1.29,
+        Number[] series2Numbers = {1.29, 1.28, 1.27, 1.27, 1.26,
                 1.28, 1.26, 1.25, 1.24, 1.26, 1.27, 1.29};
 
 
@@ -79,7 +80,6 @@ public class pastFragment extends Fragment {
         plot1.setTitle("Gala Apples 2017");
         plot1.setDomainLabel("Month");
         plot1.setRangeLabel("Price($)/lbs");
-
 
 
         plot1.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
