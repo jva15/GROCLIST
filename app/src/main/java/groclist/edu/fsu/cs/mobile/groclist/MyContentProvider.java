@@ -31,7 +31,15 @@ public class MyContentProvider extends ContentProvider {
                     "PRICE FLOAT, " +
                     "TIMESTAMP INTEGER PRIMARY KEY, " +
                     "LOCATION TEXT, " +
-                    "DESCRIPTION TEXT)";
+                    "DESCRIPTION TEXT,"+
+                    "LISTSTATUS INTEGER, " +
+                    "TOTALPRICE FLOAT) ";
+    public static final String PLUcollumn = "PLU";
+    public static final String UPCcollumn = "UPC";
+    public static final String PRICEcollumn = "PRICE";
+    public static final String TIMESTAMPcollumn = "TIMESTAMP";
+    public static final String LOCATIONcollumn = "LOCATION";
+    public static final String DESCRIPTIONcollumn = "DESCRIPTION";
 
     public static final Uri CONTENT_URI =
             Uri.parse("content://groclist.edu.fsu.cs.mobile.groclist.MyContentProvider");
