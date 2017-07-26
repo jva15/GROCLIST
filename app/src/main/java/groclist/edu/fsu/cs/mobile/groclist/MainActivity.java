@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static groclist.edu.fsu.cs.mobile.groclist.plu_db_helper.createDatabaseIfNotExists;
-import static groclist.edu.fsu.cs.mobile.groclist.plu_db_helper.getStaticDb;
 
 public class MainActivity extends AppCompatActivity
 

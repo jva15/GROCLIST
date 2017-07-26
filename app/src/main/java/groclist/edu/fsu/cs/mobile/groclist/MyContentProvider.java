@@ -36,7 +36,7 @@ public class MyContentProvider extends ContentProvider {
             Uri.parse("content://groclist.edu.fsu.cs.mobile.groclist.MyContentProvider");
 
 
-    protected static final class dbhelper extends SQLiteOpenHelper {//hacked from slides
+    protected static final class dbhelper extends SQLiteOpenHelper {
 
         dbhelper(Context context) {
             super(context, DBNAME, null, DBVERSION);
@@ -64,12 +64,20 @@ public class MyContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         //insert information
         String PLU = values.getAsString("PLU");
+        String UPC = values.getAsString("UPC");
 
         dbhelper help = new dbhelper(getContext());
 
         Long id = help.getWritableDatabase()
-                .insert("PLUTable", null, values);
-        return Uri.withAppendedPath(CONTENT_URI, PLU);
+                .insert("UserTable", null, values);
+
+        //Here, implicitly assume that an item has *EITHER* a UPC *OR* a PLU but *NOT BOTH*
+        // must set other to null.
+
+        if(UPC.equals(null))
+            return Uri.withAppendedPath(CONTENT_URI, PLU);
+        else
+            return Uri.withAppendedPath(CONTENT_URI, UPC);
     }
 
     @Override
@@ -78,7 +86,7 @@ public class MyContentProvider extends ContentProvider {
 
         dbhelper help = new dbhelper(getContext());
 
-        return help.getWritableDatabase().update("PLUTable", values, selection,selectionArgs);
+        return help.getWritableDatabase().update("UserTable", values, selection,selectionArgs);
     }
 
     @Override
