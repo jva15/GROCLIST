@@ -69,8 +69,8 @@ public class NewEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         View NEview = inflater.inflate(R.layout.fragment_new_entry, container, false);
 
-        Button addbutton = (Button) NEview.findViewById(R.id.add_button);
-        final TextView itemnamev = (TextView)NEview.findViewById(R.id.new_item);
+        Button addbutton = (Button) NEview.findViewById(R.id.add_existing);
+        final TextView itemnamev = (TextView) NEview.findViewById(R.id.new_item);
         final TextView itempricev = (TextView) NEview.findViewById(R.id.How_much);
 
 

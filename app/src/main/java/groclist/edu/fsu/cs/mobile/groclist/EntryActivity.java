@@ -30,6 +30,7 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
         */
         exists = false;
         Cursor itemsearch = getContentResolver().query(MyContentProvider.CONTENT_URI,null,null,null,null);
+        /*
         if(itemsearch!=null) {
             while (itemsearch.moveToNext()) {
                 if (itemsearch.getString(0).equals(BarContent)) {
@@ -44,7 +45,7 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
                 }
             }
             itemsearch.close();
-        }
+        }*/
 
         //
         if(!exists)

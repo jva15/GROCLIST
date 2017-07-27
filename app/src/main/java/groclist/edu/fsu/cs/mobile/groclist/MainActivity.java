@@ -30,12 +30,8 @@ public class MainActivity extends AppCompatActivity
 
     public void Scanitems(View V)
     {
-
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
-
-
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -63,6 +59,8 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
