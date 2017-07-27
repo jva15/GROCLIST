@@ -83,7 +83,7 @@ public class NewEntryFragment extends Fragment {
                 String ip = itempricev.getText().toString();
                 itemprice = Float.parseFloat(ip);
 
-                if(!itemname.equals(null))
+                if(itemname !=null)
                 {
                     mListener.oninsertnewEntry(itemname,itemprice);
 

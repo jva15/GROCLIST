@@ -3,6 +3,7 @@ package groclist.edu.fsu.cs.mobile.groclist;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -30,29 +31,30 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
         */
         exists = false;
         Cursor itemsearch = getContentResolver().query(MyContentProvider.CONTENT_URI,null,null,null,null);
-        /*
-        if(itemsearch!=null) {
+
+        if(itemsearch!=null&&itemsearch.getCount()!=0) {
             while (itemsearch.moveToNext()) {
                 if (itemsearch.getString(0).equals(BarContent)) {
                     exists = true;
                     pluorupc = 1;
-
+                    name = itemsearch.getString(5);
 
                 }
-                if (itemsearch.getString(1).equals(BarContent)) {
+                else if (itemsearch.getString(1).equals(BarContent)) {
                     exists = true;
                     pluorupc = 2;
+                    name = itemsearch.getString(5);
                 }
+
             }
             itemsearch.close();
-        }*/
+        }
 
-        //
+
         if(!exists)
             onnewEntryfound();
         else {
-            onexistingEntryfound();
-            name = itemsearch.getString(5);};
+            onexistingEntryfound();};
     }
 
 
@@ -74,15 +76,19 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
 
         //TODO add Entry to user database
         ContentValues CV = new ContentValues();
-        if(pluorupc==1)
+        if(pluorupc==1){
             CV.put("PLU",BarContent);
-        if(pluorupc==2)
+        CV.put("UPC","0");}
+        if(pluorupc==2||pluorupc==0){
             CV.put("UPC",BarContent);
+            CV.put("PLU","0");}
+
+        Uri testuri;
         CV.put("PRICE",itemprice);
         CV.put("DESCRIPTION",itemname);
         CV.put("TOTALPRICE",itemprice);
         CV.put("LISTSTATUS",0);
-        getContentResolver().insert(MyContentProvider.CONTENT_URI,CV);
+        testuri = getContentResolver().insert(MyContentProvider.CONTENT_URI,CV);
 
 
 
@@ -94,10 +100,14 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
 
 
         ContentValues CV = new ContentValues();
-        if(pluorupc==1)
-        CV.put("PLU",BarContent);
-        if(pluorupc==2)
+        if(pluorupc==1) {
+            CV.put("PLU", BarContent);
+            CV.put("UPC","0");
+        }
+            if(pluorupc==2){
             CV.put("UPC",BarContent);
+        CV.put("PLU","0");}
+
         CV.put("PRICE",newprice);
         CV.put("DESCRIPTION",name);
         CV.put("TOTALPRICE",newprice);

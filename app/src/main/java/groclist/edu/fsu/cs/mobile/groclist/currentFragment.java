@@ -42,10 +42,11 @@ public class currentFragment extends Fragment {
         View view = inflater.inflate(R.layout.current_list, container, false);
 
 
-        ListView listView = (ListView) getActivity().findViewById(R.id.current_listview);
+        ListView listView = (ListView) view.findViewById(R.id.current_listview);
         String[] collumns = new String[] {"DESCRIPTION","TOTALPRICE","TIMESTAMP"};
         Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI,collumns,null,null,null);
         List<String> str=  new ArrayList<String>();
+
         int i=0;
 
 
@@ -53,9 +54,9 @@ public class currentFragment extends Fragment {
         {
             while(C.moveToNext())
             {
-                if(i==0)
-                    str.set(i, "Water | 3.0 |7/26/2017 ");
-                //str.set(i, (C.getString(0)+ " : "+ C.getString(1)+ " : "+ C.getString(2)));
+
+                str.add(i, (C.getString(0)+ " : "+ C.getFloat(1)+ " : "+ C.getInt(2)));
+                i++;
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,str);
             listView.setAdapter(adapter);

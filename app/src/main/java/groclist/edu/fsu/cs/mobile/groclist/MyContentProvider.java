@@ -87,7 +87,7 @@ public class MyContentProvider extends ContentProvider {
         //Here, implicitly assume that an item has *EITHER* a UPC *OR* a PLU but *NOT BOTH*
         // must set other to null.
 
-        if(UPC.equals(null))
+        if(UPC!=null)
             return Uri.withAppendedPath(CONTENT_URI, PLU);
         else
             return Uri.withAppendedPath(CONTENT_URI, UPC);
