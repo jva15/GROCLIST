@@ -37,30 +37,10 @@ public class MainActivity extends AppCompatActivity
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
 
         List<String> quotes = databaseAccess.getQuotes();
-
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quotes);
         this.listView.setAdapter(adapter);
-       // try {
-         //   createDatabaseIfNotExists(getApplicationContext());
-        //} catch (IOException e) {
-          //  e.printStackTrace();
-        //}
-        //plu_db = getStaticDb(getApplicationContext());
-/*
-        ListView listView = (ListView) findViewById(R.id.listView);
-        List<String> list = new ArrayList<>();
-        Cursor cursor = plu_db.rawQuery("SELECT *", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(0));
-            cursor.moveToNext();
-        }
-        cursor.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
-*/
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
