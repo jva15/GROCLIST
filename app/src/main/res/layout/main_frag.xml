@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="groclist.edu.fsu.cs.mobile.groclist.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="groclist.edu.fsu.cs.mobile.groclist.MainActivity">
 
 
     <!-- ID is scan_button-->
@@ -61,12 +60,11 @@
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/type_view"
         android:layout_toRightOf="@id/price_view"
         android:layout_alignBottom="@id/price_view"
         android:layout_marginStart="25dp"
         android:id="@+id/price"
-        />
+        android:layout_below="@+id/type" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,12 +78,11 @@
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/price_view"
         android:layout_toRightOf="@id/pounds_view"
         android:layout_alignBottom="@id/pounds_view"
         android:layout_marginStart="38dp"
         android:id="@+id/pounds"
-        />
+        android:layout_below="@+id/price" />
 
     <!-- ID is add_button -->
     <Button

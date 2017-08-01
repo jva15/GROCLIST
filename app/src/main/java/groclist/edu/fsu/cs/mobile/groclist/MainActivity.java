@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     public void getlocations() {
-
+        addresses = new ArrayList<String>();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
@@ -308,13 +308,16 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.home_button){
             //checking to see if its in current_frag
-                FragmentManager m = getSupportFragmentManager();
-                FragmentTransaction tran = m.beginTransaction();
+            FragmentManager m = getSupportFragmentManager();
+            FragmentTransaction tran = m.beginTransaction();
+            getlocations();
+            Bundle addressitems = new Bundle();
+            addressitems.putStringArrayList("address", addresses);
+            mainFragment mf = mainFragment.newInstance();
+            mf.setArguments(addressitems);
 
-
-                mainFragment mf = mainFragment.newInstance();
             tran.replace(R.id.main_frame, mf);
-                tran.commit();
+            tran.commit();
                // tran.add(R.id.current_frame, mf, "MAIN_TAG");
                 //tran.addToBackStack(null);
 

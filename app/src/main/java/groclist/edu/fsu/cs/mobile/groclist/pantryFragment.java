@@ -49,13 +49,13 @@ public class pantryFragment extends Fragment {
 
         int i = 0;
 
-
+        //populate the list
         if (C != null) {
             while (C.moveToNext()) {
                 str.add(i, (C.getString(0) + " : " + C.getFloat(1) + " : " + C.getString(2)));
                 i++;
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, str);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, str);
             listView.setAdapter(adapter);
 
             C.close();

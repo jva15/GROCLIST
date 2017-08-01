@@ -25,6 +25,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,10 @@ public class mainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
+        if (args != null)//args goes null sometimes for some reason.
         addresses = args.getStringArrayList("address");
+
+
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
     }
@@ -110,14 +114,15 @@ public class mainFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+
                 //get loc ahead of time
                 Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 String name = "";
-                float price=0;
-                int pound= 0;
-                float total= 0;
-                String code= UPCinput.getText().toString();
+                float price = 0;
+                int pound = 0;
+                float total = 0;
+                String code = UPCinput.getText().toString();
                 int PLU = Integer.parseInt(code);
                 Location previouscoords;
                 Boolean permission_granted =
@@ -125,22 +130,48 @@ public class mainFragment extends Fragment {
                                 == PackageManager.PERMISSION_GRANTED;
 
 
+                //retrieve
                 String PPPinp = priceperpoundinpute.getText().toString();
                 String LBSinp = poundsinput.getText().toString();
                 DatabaseAccess DATA = DatabaseAccess.getInstance(getContext());
+                Boolean incomplete = false;
+                if (UPCinput.getText().toString().equals("")) {
+                    UPCinput.setError("Please specify");
+                    incomplete = true;
+                }
+                if (PPPinp.equals("")) {
+                    priceperpoundinpute.setError("Please specify");
+                    incomplete = true;
+                    }
+                if (LBSinp.equals("")) {
+                    poundsinput.setError("Please specify");
+                    incomplete = true;
+                }
+                if (incomplete) {
+                    incomplete = false;
+                    return;
+                }
+
+                //reset
+                priceperpoundinpute.setText("");
+                poundsinput.setText("");
+                UPCinput.setText("");
+
                 price = Float.parseFloat(PPPinp);
                 pound = Integer.parseInt(LBSinp);
-                total = pound*price;
+                total = pound * price;
 
                 //check the produce database and retreive name;
                 Cursor CURSOR = DATA.getQuotes("PLU = " + PLU);
                 ContentValues CVs = new ContentValues();
-                if(CURSOR!=null) {
+                if (CURSOR != null) {
                     while (CURSOR.moveToNext()) {
-                        name = CURSOR.getString(2)+" "+CURSOR.getString(1);
+                        name = CURSOR.getString(2) + " " + CURSOR.getString(1);
+
                     }
                     CURSOR.close();
-                }
+                    Toast.makeText(getContext(), name + " added", Toast.LENGTH_LONG).show();
+                } else Toast.makeText(getContext(), "invalid PLU", Toast.LENGTH_LONG).show();
                 DATA.close();
 
                 //place values into user database
@@ -154,14 +185,14 @@ public class mainFragment extends Fragment {
                     CVs.put("LOCATION", "NONE");
                 }
 
-                CVs.put("PLU",code);
-                CVs.put("UPC",0);
-                CVs.put("PRICE", price);
-                CVs.put("DESCRIPTION",name);
-                CVs.put("LISTSTATUS",0);
-                CVs.put("TOTALPRICE",total);
-                getActivity().getContentResolver().insert(MyContentProvider.CONTENT_URI,CVs);
 
+                CVs.put("PLU", code);
+                CVs.put("UPC", 0);
+                CVs.put("PRICE", price);
+                CVs.put("DESCRIPTION", name);
+                CVs.put("LISTSTATUS", 0);
+                CVs.put("TOTALPRICE", total);
+                getActivity().getContentResolver().insert(MyContentProvider.CONTENT_URI, CVs);
 
             }
         });
