@@ -164,7 +164,8 @@ public class mainFragment extends Fragment {
                 //check the produce database and retreive name;
                 Cursor CURSOR = DATA.getQuotes("PLU = " + PLU);
                 ContentValues CVs = new ContentValues();
-                if (CURSOR != null) {
+                if (CURSOR != null && CURSOR.getCount() != 0) {
+                    
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
 
