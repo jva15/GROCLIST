@@ -1,9 +1,23 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
+import android.*;
+import android.Manifest;
+import android.content.ContentProvider;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContentResolverCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,17 +35,117 @@ import groclist.edu.fsu.cs.mobile.groclist.mainFragment;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import groclist.edu.fsu.cs.mobile.groclist.IntentIntegrator;
 import groclist.edu.fsu.cs.mobile.groclist.IntentResult;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, mainFragment.OnFragmentInteractionListener {
+
+    LocationManager lm;
+    final public int REQUEST = 290;
+    int maximumlocationresults = 5;
+    Location lastloc;
+    List<Address> addresses_1;
+    ArrayList<String> addresses = new ArrayList<String>(0);
+    Boolean locationset = false;
+    String store = "";
+
+    LocationListener LL = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
+    public void getlocations() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LL);
+
+            lastloc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Log.i("coords", lastloc.getLatitude() + "" + lastloc.getLongitude());
+            Geocoder geo = new Geocoder(getApplicationContext(), Locale.getDefault());
+            try {
+                addresses_1 = geo.getFromLocation(lastloc.getLatitude(), lastloc.getLongitude(), maximumlocationresults);
+            } catch (IOException e) {
+                Log.d("UNACCEPTABLE!", "getfromlocationfailed");
+            }
+            if (addresses_1 != null) {
+                for (int i = 0; i < addresses_1.size(); i++) {
+                    addresses.add(addresses_1.get(i).getAddressLine(0));
+                    addresses.set(i, addresses.get(i).substring(0, addresses.get(i).indexOf(",")));
+                    Log.i("coords", addresses.get(i));
+                }
+            }
+
+
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
+                    , REQUEST);
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}
+                    , REQUEST);
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST: {
+                //relaunch main frag with items for the spinner.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    while (!locationset)//wait for current frag to load;
+                        getlocations();
+                    FragmentManager m = getSupportFragmentManager();
+                    FragmentTransaction tran = m.beginTransaction();
+                    Bundle addressitems = new Bundle();
+                    addressitems.putStringArrayList("address", addresses);
+                    mainFragment mf = mainFragment.newInstance();
+                    mf.setArguments(addressitems);
+                    tran.replace(R.id.main_frame, mf, "MAIN_FRAG");
+                    tran.commit();
+
+
+                }
+            }
+        }
+    }
+
 
     public void Scanitems(View V)
     {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
+    }
+
+    public void setplace(String str) {
+        store = str;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -45,6 +159,7 @@ public class MainActivity extends AppCompatActivity
             Intent toEA = new Intent(this,EntryActivity.class);
             toEA.putExtra("Content",scanContent);
             toEA.putExtra("Format",scanFormat);
+            toEA.putExtra("Place", store);
 
             startActivity(toEA);
 
@@ -68,16 +183,22 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        getlocations();
+        Bundle addressitems = new Bundle();
+        addressitems.putStringArrayList("address", addresses);
 
         FragmentManager m = getSupportFragmentManager();
         FragmentTransaction tran = m.beginTransaction();
 
+
         //showing mainFragment at first
         mainFragment mf = mainFragment.newInstance();
+
+        mf.setArguments(addressitems);
         tran.add(R.id.main_frame, mf, "MAIN_FRAG");
         tran.commit();
-
+        locationset = true;
 
 
       /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

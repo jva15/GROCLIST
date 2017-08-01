@@ -43,7 +43,7 @@ public class currentFragment extends Fragment {
 
 
         ListView listView = (ListView) view.findViewById(R.id.current_listview);
-        String[] collumns = new String[] {"DESCRIPTION","TOTALPRICE","TIMESTAMP"};
+        String[] collumns = new String[]{"DESCRIPTION", "TOTALPRICE", "TIMESTAMP", "LOCATION"};
         Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI,collumns,null,null,null);
         List<String> str=  new ArrayList<String>();
 
@@ -54,12 +54,15 @@ public class currentFragment extends Fragment {
         {
             while(C.moveToNext())
             {
-
-                str.add(i, (C.getString(0)+ " : "+ C.getFloat(1)+ " : "+ C.getString(2)));
+                str.add(i, (C.getString(0) + " : " + C.getFloat(1) + " : " + C.getString(2) + " : " + C.getString(3)));
                 i++;
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,str);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_expandable_list_item_1, str);
+            listView.setBackgroundColor(778899);
+
+
             listView.setAdapter(adapter);
+
 
             C.close();
         }

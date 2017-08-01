@@ -1,7 +1,9 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
 
+import android.*;
         import android.content.Context;
+import android.content.pm.PackageManager;
         import android.database.sqlite.SQLiteDatabase;
 
         import java.io.File;
@@ -21,7 +23,10 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 
 public class MyContentProvider extends ContentProvider {
     public static final int DBVERSION = 1;
@@ -43,6 +48,10 @@ public class MyContentProvider extends ContentProvider {
     public static final String TIMESTAMPcollumn = "TIMESTAMP";
     public static final String LOCATIONcollumn = "LOCATION";
     public static final String DESCRIPTIONcollumn = "DESCRIPTION";
+    public String current_coords = "0,0";
+    public String current_place = "none";
+
+    public String current_location = current_coords + current_place;
 
     public static final Uri CONTENT_URI =
             Uri.parse("content://groclist.edu.fsu.cs.mobile.groclist.MyContentProvider");
@@ -72,6 +81,11 @@ public class MyContentProvider extends ContentProvider {
         return true;
     }
 
+    public void setplace(String str) {
+        current_place = str;
+    }
+
+
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         //insert information
@@ -80,22 +94,21 @@ public class MyContentProvider extends ContentProvider {
         Calendar c = Calendar.getInstance();
 
         //CONVERT calender variables to a date for the database
-        String SS = (c.get(Calendar.SECOND)>9 ?
+        String SS = (c.get(Calendar.SECOND) <= 9 ?
                 "0"+c.get(Calendar.SECOND): ""+c.get(Calendar.SECOND));
-        String MM = (c.get(Calendar.MINUTE)>9 ?
+        String MM = (c.get(Calendar.MINUTE) <= 9 ?
                 "0"+c.get(Calendar.MINUTE): ""+c.get(Calendar.MINUTE));
-        String HH = (c.get(Calendar.HOUR_OF_DAY)>9 ?
+        String HH = (c.get(Calendar.HOUR_OF_DAY) <= 9 ?
                 "0"+c.get(Calendar.HOUR_OF_DAY): ""+c.get(Calendar.HOUR_OF_DAY));
-        String DD = (c.get(Calendar.DAY_OF_MONTH)>9 ?
+        String DD = (c.get(Calendar.DAY_OF_MONTH) <= 9 ?
                 "0"+c.get(Calendar.DAY_OF_MONTH): ""+c.get(Calendar.DAY_OF_MONTH));
-        String MO = (c.get(Calendar.MONTH)>9 ?
+        String MO = (c.get(Calendar.MONTH) <= 9 ?
                 "0"+c.get(Calendar.MONTH): ""+c.get(Calendar.MONTH));
         String YEAR = ""+(c.get(Calendar.YEAR));
 
-        SimpleDateFormat sdf = new SimpleDateFormat(YEAR+"-"+MM+"-"+DD+" "+HH+":"+MM+":"+SS, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(YEAR + "-" + MO + "-" + DD + " " + HH + ":" + MM + ":" + SS, Locale.getDefault());
         String date = sdf.format(new Date());
         values.put("TIMESTAMP",date);
-        values.put("LOCATION","0,0");
         dbhelper help = new dbhelper(getContext());
 
         Long id = help.getWritableDatabase()
@@ -105,9 +118,9 @@ public class MyContentProvider extends ContentProvider {
         // must set other to null.
 
         if(UPC!=null)
-            return Uri.withAppendedPath(CONTENT_URI, PLU);
-        else
             return Uri.withAppendedPath(CONTENT_URI, UPC);
+        else
+            return Uri.withAppendedPath(CONTENT_URI, PLU);
     }
 
     @Override
