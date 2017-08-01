@@ -39,7 +39,7 @@ public class pantryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.pantry_list, container, false);
 
-        ListView listView = (ListView) view.findViewById(R.id.current_listview);
+        ListView listView = (ListView) view.findViewById(R.id.pantry_listview);
         String[] collumns = new String[]{"DESCRIPTION", "TOTALPRICE", "TIMESTAMP"};
         String clause = "LISTSTATUS = ?";
         String[] selargs = {"1"};
