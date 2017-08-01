@@ -55,7 +55,7 @@ public class currentFragment extends Fragment {
             while(C.moveToNext())
             {
 
-                str.add(i, (C.getString(0)+ " : "+ C.getFloat(1)+ " : "+ C.getInt(2)));
+                str.add(i, (C.getString(0)+ " : "+ C.getFloat(1)+ " : "+ C.getString(2)));
                 i++;
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,str);

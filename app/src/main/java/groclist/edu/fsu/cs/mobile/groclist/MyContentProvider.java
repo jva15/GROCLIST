@@ -9,7 +9,10 @@ package groclist.edu.fsu.cs.mobile.groclist;
         import java.io.IOException;
         import java.io.InputStream;
         import java.io.OutputStream;
+        import java.text.SimpleDateFormat;
         import java.util.Calendar;
+        import java.util.Date;
+        import java.util.Locale;
 
         import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -29,7 +32,7 @@ public class MyContentProvider extends ContentProvider {
                     "PLU TEXT , " +
                     "UPC TEXT , " +
                     "PRICE FLOAT, " +
-                    "TIMESTAMP INTEGER PRIMARY KEY, " +
+                    "TIMESTAMP DATE, " +
                     "LOCATION TEXT, " +
                     "DESCRIPTION TEXT,"+
                     "LISTSTATUS INTEGER, " +
@@ -75,9 +78,23 @@ public class MyContentProvider extends ContentProvider {
         String PLU = values.getAsString("PLU");
         String UPC = values.getAsString("UPC");
         Calendar c = Calendar.getInstance();
-        int seconds = c.get(Calendar.SECOND);
 
-        values.put("TIMESTAMP",seconds);
+        //CONVERT calender variables to a date for the database
+        String SS = (c.get(Calendar.SECOND)>9 ?
+                "0"+c.get(Calendar.SECOND): ""+c.get(Calendar.SECOND));
+        String MM = (c.get(Calendar.MINUTE)>9 ?
+                "0"+c.get(Calendar.MINUTE): ""+c.get(Calendar.MINUTE));
+        String HH = (c.get(Calendar.HOUR_OF_DAY)>9 ?
+                "0"+c.get(Calendar.HOUR_OF_DAY): ""+c.get(Calendar.HOUR_OF_DAY));
+        String DD = (c.get(Calendar.DAY_OF_MONTH)>9 ?
+                "0"+c.get(Calendar.DAY_OF_MONTH): ""+c.get(Calendar.DAY_OF_MONTH));
+        String MO = (c.get(Calendar.MONTH)>9 ?
+                "0"+c.get(Calendar.MONTH): ""+c.get(Calendar.MONTH));
+        String YEAR = ""+(c.get(Calendar.YEAR));
+
+        SimpleDateFormat sdf = new SimpleDateFormat(YEAR+"-"+MM+"-"+DD+" "+HH+":"+MM+":"+SS, Locale.getDefault());
+        String date = sdf.format(new Date());
+        values.put("TIMESTAMP",date);
         values.put("LOCATION","0,0");
         dbhelper help = new dbhelper(getContext());
 
