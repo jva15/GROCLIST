@@ -1,16 +1,21 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.androidplot.Plot;
 import com.androidplot.xy.BoundaryMode;
@@ -22,10 +27,13 @@ import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
+import java.io.StringBufferInputStream;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class pastFragment extends Fragment {
@@ -70,11 +78,85 @@ public class pastFragment extends Fragment {
         return new pastFragment();
     }
 
+    private String getplacenamefromentry(String str)//theres an address AND a set of coordinates:this extracts the address
+    {
+        return str.substring(0, str.indexOf(":"));
+    }
+
+    private String getdatefromentryonly(String str)//theres both a date AND a time:this extracts the time
+    {
+        return str.substring(0, 10);
+    }
+
+    private int getdayentry(String str)//gets day from cursor result from "LOCATION"
+    {
+        return Integer.getInteger(str.substring(8, 10));
+    }
+
+    private int getmonthfromentry(String str)//gets month from cursor result from "LOCATION"
+    {
+        return Integer.getInteger(str.substring(5, 7));
+    }
+
+    private int getyearfromentry(String str)//gets year from cursor result from "LOCATION"
+    {
+        return Integer.getInteger(str.substring(0, 4));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.past_list, container, false);
 
+        Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
+        Spinner sp2 = (Spinner) ll.findViewById(R.id.spinner2);
+        ArrayList<String> places = new ArrayList<String>();
+        String[] projection = {"LOCATION"};
+        Cursor cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
+        String place = "";
+        String[] p;
+        if (cursor != null) {
+
+            //this part is for getting the items for the spinner
+            while (cursor.moveToNext()) {
+                //check its already on the list, if not, lose it.
+                place = getplacenamefromentry(cursor.getString(0));
+                if (places.size() == 0) {
+                    places.add(place);
+                } else {
+                    places.add(place);
+                    for (int i = 0; i < places.size(); i++) {
+
+                        if (places.get(i).equals(place)) break;
+                        else {
+
+                            places.add(place);
+                            break;
+                        }
+                    }
+                }
+            }
+            cursor.close();
+        }
+
+        p = new String[places.size()];
+
+        for (int i = 0; i < places.size(); i++) p[i] = places.get(i);
+        ArrayAdapter<String> storeAdaptor = new ArrayAdapter<String>(getContext(),
+                R.layout.support_simple_spinner_dropdown_item, p);
+
+
+        sp1.setAdapter(storeAdaptor);
+        sp2.setAdapter(storeAdaptor);
+
+        projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
+        //cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
+
+
+
+
+
+        plot1 = (XYPlot) ll.findViewById(R.id.plot1);
 
         itemSearch = ll.findViewById(R.id.graph_item_select);
         storeSearch = ll.findViewById(R.id.graph_store_select);

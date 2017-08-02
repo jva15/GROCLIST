@@ -30,7 +30,7 @@ public class NewEntryFragment extends Fragment {
     private String mParam2;
 
     public String itemname = null;
-    double itemprice = 0;
+    float itemprice = 0;
     private OnFragmentInteractionListener mListener;
 
     public NewEntryFragment() {
@@ -69,8 +69,8 @@ public class NewEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         View NEview = inflater.inflate(R.layout.fragment_new_entry, container, false);
 
-        Button addbutton = (Button) NEview.findViewById(R.id.add_button);
-        final TextView itemnamev = (TextView)NEview.findViewById(R.id.new_item);
+        Button addbutton = (Button) NEview.findViewById(R.id.add_existing);
+        final TextView itemnamev = (TextView) NEview.findViewById(R.id.new_item);
         final TextView itempricev = (TextView) NEview.findViewById(R.id.How_much);
 
 
@@ -81,12 +81,14 @@ public class NewEntryFragment extends Fragment {
 
                 itemname = itemnamev.getText().toString();
                 String ip = itempricev.getText().toString();
-                itemprice = Double.parseDouble(ip);
+                itemprice = Float.parseFloat(ip);
 
-                if(!itemname.equals(null))
+                if(itemname !=null)
                 {
                     mListener.oninsertnewEntry(itemname,itemprice);
 
+                } else {
+                    mListener.oninsertnewEntry("nulled", itemprice);
                 }
 
 
@@ -126,6 +128,6 @@ public class NewEntryFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
 
-        void oninsertnewEntry(String P1,double P2);
+        void oninsertnewEntry(String P1,float P2);
     }
 }

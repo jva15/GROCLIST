@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="groclist.edu.fsu.cs.mobile.groclist.SettingsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings" />
+
+    <Button
+        android:id="@+id/expcheckbutton"
+        android:layout_width="match_parent"
+        android:layout_height="117dp"
+        android:text="Start Expiration Checks" />
+
+    <Button
+        android:id="@+id/stopcheck"
+        android:text="Stop Expiratioin Checks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

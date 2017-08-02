@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="edu.fsu.cs.mobile.GROCLIST.pantryFragment"
-    tools:context="edu.fsu.cs.mobile.GROCLIST.pantryFragment">
+    android:name="groclist.edu.fsu.cs.mobile.groclist.pantryFragment"
+    tools:context="groclist.edu.fsu.cs.mobile.groclist.pantryFragment">
 
     <!-- Add View to display URLs -->
     <ListView
