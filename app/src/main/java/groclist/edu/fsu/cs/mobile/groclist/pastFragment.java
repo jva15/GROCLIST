@@ -114,7 +114,7 @@ public class pastFragment extends Fragment {
                 R.layout.support_simple_spinner_dropdown_item, p);
 
         sp1.setAdapter(storeAdaptor);
-        //sp2.setAdapter(storeAdaptor);
+        sp2.setAdapter(storeAdaptor);
 
         projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
         cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);

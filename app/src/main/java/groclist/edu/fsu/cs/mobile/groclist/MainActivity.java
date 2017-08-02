@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     public void getlocations() {
+        String Add = "";
         addresses = new ArrayList<String>();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +98,10 @@ public class MainActivity extends AppCompatActivity
             if (addresses_1 != null) {
                 for (int i = 0; i < addresses_1.size(); i++) {
                     addresses.add(addresses_1.get(i).getAddressLine(0));
-                    addresses.set(i, addresses.get(i).substring(0, addresses.get(i).indexOf(",")));
+                    Add = addresses.get(i);
+                    if (Add.contains(","))
+                        addresses.set(i, Add.substring(0, Add.indexOf(",")));
+                    else addresses.set(i, Add);
                     Log.i("coords", addresses.get(i));
                 }
             }
@@ -132,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     while (!locationset)//wait for current frag to load;
                         getlocations();
-                    FragmentManager m = getSupportFragmentManager();
+                   /* FragmentManager m = getSupportFragmentManager();
                     FragmentTransaction tran = m.beginTransaction();
                     Bundle addressitems = new Bundle();
                     addressitems.putStringArrayList("address", addresses);
@@ -140,7 +144,7 @@ public class MainActivity extends AppCompatActivity
                     mf.setArguments(addressitems);
                     tran.replace(R.id.main_frame, mf);
                     tran.commit();
-
+*/
 
                 }
             }
