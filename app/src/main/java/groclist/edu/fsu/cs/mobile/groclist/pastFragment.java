@@ -90,7 +90,7 @@ public class pastFragment extends Fragment {
         ArrayList<String> places = new ArrayList<String>();
         String[] projection = {"LOCATION"};
         Cursor cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
-        String place;
+        String place = "";
         String[] p;
         if (cursor != null) {
 
@@ -98,10 +98,19 @@ public class pastFragment extends Fragment {
             while (cursor.moveToNext()) {
                 //check its already on the list, if not, lose it.
                 place = getplacenamefromentry(cursor.getString(0));
-                Log.i("graph", "o");
-                for (int i = 0; i < places.size(); i++) {
-                    if (places.get(i).equals(place)) break;
-                    if (i == (places.size() - 1)) places.add(place);
+                if (places.size() == 0) {
+                    places.add(place);
+                } else {
+                    places.add(place);
+                    for (int i = 0; i < places.size(); i++) {
+
+                        if (places.get(i).equals(place)) break;
+                        else {
+
+                            places.add(place);
+                            break;
+                        }
+                    }
                 }
             }
             cursor.close();
@@ -113,17 +122,14 @@ public class pastFragment extends Fragment {
         ArrayAdapter<String> storeAdaptor = new ArrayAdapter<String>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, p);
 
+
         sp1.setAdapter(storeAdaptor);
         sp2.setAdapter(storeAdaptor);
 
         projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
-        cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
-
-        if (cursor != null) {
+        //cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
 
 
-            cursor.close();
-        }
 
 
 
