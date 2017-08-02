@@ -87,17 +87,17 @@ public class pastFragment extends Fragment {
 
         plot1.clear();
         janVals = 0;
-        febVals = 2;
-        marVals = 5;
-        aprVals = 4;
-        mayVals = 3;
-        junVals = 6;
-        julVals = 9;
-        augVals = 3;
-        sepVals = 4;
-        octVals = 1;
-        novVals = 5;
-        decVals = 2;
+        febVals = 0;
+        marVals = 0;
+        aprVals = 0;
+        mayVals = 0;
+        junVals = 0;
+        julVals = 0;
+        augVals = 0;
+        sepVals = 0;
+        octVals = 0;
+        novVals = 0;
+        decVals = 0;
         lbsOritem = "Price/lbs";
         currentYear = "2017";
 
@@ -127,8 +127,8 @@ public class pastFragment extends Fragment {
         plot1.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
             @Override
             public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-                //int i = Math.round(((Number) obj).floatValue());
-                return toAppendTo.append(domainLabels[1]);
+                int i = Math.round(((Number) obj).floatValue());
+                return toAppendTo.append(domainLabels[i]);
             }
 
             @Override
