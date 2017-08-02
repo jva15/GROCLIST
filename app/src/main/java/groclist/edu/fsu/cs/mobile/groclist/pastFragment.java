@@ -11,12 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.androidplot.Plot;
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
@@ -36,6 +39,27 @@ import java.util.List;
 
 public class pastFragment extends Fragment {
     private XYPlot plot1;
+    String lbsOritem;
+    int janVals;
+    int febVals;
+    int marVals;
+    int aprVals;
+    int mayVals;
+    int junVals;
+    int julVals;
+    int augVals;
+    int sepVals;
+    int octVals;
+    int novVals;
+    int decVals;
+    String currentYear;
+    Button updateButton;
+    EditText itemSearch;
+    EditText storeSearch;
+    final String[] domainLabels = {"Jan", "Feb", "Mar", "Apr", "May",
+            "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    final Number[] monthNums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+
 
 
     public pastFragment() {
@@ -86,7 +110,7 @@ public class pastFragment extends Fragment {
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.past_list, container, false);
 
         Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
-        Button graphbutton = (Button) ll.findViewById(R.id.graph_update_button);
+        Spinner sp2 = (Spinner) ll.findViewById(R.id.spinner2);
         ArrayList<String> places = new ArrayList<String>();
         String[] projection = {"LOCATION"};
         Cursor cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
@@ -151,34 +175,53 @@ public class pastFragment extends Fragment {
 
 */
         plot1 = (XYPlot) ll.findViewById(R.id.plot1);
-        //plot2 = (XYPlot) getView().findViewById(R.id.plot2);
 
-        final String[] domainLabels = {"Jan", "Feb", "Mar", "Apr", "May",
-        "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        itemSearch = ll.findViewById(R.id.graph_item_select);
+        storeSearch = ll.findViewById(R.id.graph_store_select);
+        updateButton = ll.findViewById(R.id.graph_update_button);
+        plot1 = ll.findViewById(R.id.plot1);
+        plot1.setTitle("");
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        Number[] series1Numbers = {1.27, 1.25, 1.23, 1.23, 1.24,
-                1.23, 1.26, 1.25, 1.26, 1.24, 1.22, 1.23};
+        plot1.clear();
+        janVals = 0;
+        febVals = 0;
+        marVals = 0;
+        aprVals = 0;
+        mayVals = 0;
+        junVals = 0;
+        julVals = 0;
+        augVals = 0;
+        sepVals = 0;
+        octVals = 0;
+        novVals = 0;
+        decVals = 0;
+        lbsOritem = "Price/lbs";
+        currentYear = "2017";
 
-        Number[] series2Numbers = {1.29, 1.28, 1.27, 1.27, 1.26,
-                1.28, 1.26, 1.25, 1.24, null, 1.27, 1.29};
 
 
-        XYSeries series1 = new SimpleXYSeries(
-                Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Walmart");
 
-        XYSeries series2 = new SimpleXYSeries(
-                Arrays.asList(series2Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Target");
+        Number[] series1Numbers = {janVals, febVals, marVals, aprVals, mayVals,
+                junVals, julVals, augVals, sepVals, octVals, novVals, decVals};
+
+
+        XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), storeSearch.getText().toString());
 
         LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
 
-        LineAndPointFormatter series2Format = new LineAndPointFormatter(Color.RED, Color.RED, null, null);
 
 
         plot1.addSeries(series1, series1Format);
-        plot1.addSeries(series2, series2Format);
-        plot1.setTitle("Gala Apples 2017");
+
+        plot1.setTitle(itemSearch.getText().toString() + " at " + storeSearch.getText().toString() + " in " + currentYear);
+
         plot1.setDomainLabel("Month");
-        plot1.setRangeLabel("Price($)/lbs");
+        plot1.setRangeLabel(lbsOritem);
+        plot1.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);
+
 
 
         plot1.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
@@ -190,7 +233,12 @@ public class pastFragment extends Fragment {
 
             @Override
             public Object parseObject(String source, ParsePosition pos) {
+
                 return null;
+            }
+        });
+                plot1.redraw();
+
             }
         });
 
