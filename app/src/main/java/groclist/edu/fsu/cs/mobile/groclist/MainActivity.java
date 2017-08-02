@@ -101,14 +101,24 @@ public class MainActivity extends AppCompatActivity
                     Log.i("coords", addresses.get(i));
                 }
             }
+            FragmentManager m = getSupportFragmentManager();
+            FragmentTransaction tran = m.beginTransaction();
+            //showing mainFragment at first
+            Bundle addressitems = new Bundle();
+            addressitems.putStringArrayList("address", addresses);
+            mainFragment mf = mainFragment.newInstance();
+            mf.setArguments(addressitems);
+            tran.add(R.id.main_frame, mf, "MAIN_FRAG");
+            tran.commit();
+            locationset = true;
 
 
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
                     , REQUEST);
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}
-                    , REQUEST);
+            /*ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}
+                    , REQUEST);*/
 
         }
 
@@ -128,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                     addressitems.putStringArrayList("address", addresses);
                     mainFragment mf = mainFragment.newInstance();
                     mf.setArguments(addressitems);
-                    tran.replace(R.id.main_frame, mf, "MAIN_FRAG");
+                    tran.replace(R.id.main_frame, mf);
                     tran.commit();
 
 
@@ -185,20 +195,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         getlocations();
-        Bundle addressitems = new Bundle();
-        addressitems.putStringArrayList("address", addresses);
 
-        FragmentManager m = getSupportFragmentManager();
-        FragmentTransaction tran = m.beginTransaction();
-
-
-        //showing mainFragment at first
-        mainFragment mf = mainFragment.newInstance();
-
-        mf.setArguments(addressitems);
-        tran.add(R.id.main_frame, mf, "MAIN_FRAG");
-        tran.commit();
-        locationset = true;
 
 
       /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -306,10 +303,6 @@ public class MainActivity extends AppCompatActivity
 
             tran.replace(R.id.main_frame, mf);
             tran.commit();
-               // tran.add(R.id.current_frame, mf, "MAIN_TAG");
-                //tran.addToBackStack(null);
-
-               // tran.commit();
 
 
 

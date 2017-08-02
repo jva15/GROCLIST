@@ -58,12 +58,12 @@ public class MyReceiver extends BroadcastReceiver {
                 while (iteminspector.moveToNext()) {
                     i++;
                     entry = iteminspector.getString(1);
-                    minexp = Integer.getInteger(entry.substring(0, entry.indexOf(":") - 1));
+                    minexp = Integer.getInteger(entry.substring(0, entry.indexOf(":")));
                     maxexp = Integer.getInteger(entry.substring(entry.indexOf(":") + 1));
                     entry = iteminspector.getString(2);
-                    year = Integer.getInteger(entry.substring(0, entry.indexOf("-") - 1));
-                    month = Integer.getInteger(entry.substring(entry.indexOf("-") + 1, entry.lastIndexOf("-") - 1));
-                    day = Integer.getInteger(entry.substring(entry.lastIndexOf("-") + 1));
+                    year = Integer.getInteger(entry.substring(0, entry.indexOf("-")));
+                    month = Integer.getInteger(entry.substring(entry.indexOf("-") + 1, entry.lastIndexOf("-")));
+                    day = Integer.getInteger(entry.substring(entry.lastIndexOf("-") + 1, entry.lastIndexOf(" ")));
                     time = (cyear * 365 + cmonth * 100 + cday) - (year * 365 + month * 100 + day);
 
 
@@ -85,7 +85,7 @@ public class MyReceiver extends BroadcastReceiver {
                         notify1 = true;
                         elist.add(i, iteminspector.getString(0) + " | " + (minexp - time) + " Days(if left outside) before potential outside spoilage");
                     }
-
+                    iteminspector.close();
 
                 }
                 if (notify2) sendnotification(message[0], elist);

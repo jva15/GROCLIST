@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.fsu.cs.mobile.GROCLIST.pastFragment">
+    tools:context="groclist.edu.fsu.cs.mobile.groclist.pastFragment">
 
     <EditText
         android:id="@+id/graph_item_select"
@@ -17,6 +17,15 @@
         android:inputType="textPersonName"
         android:text="Gala Apples" />
 
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
     <Button
         android:id="@+id/graph_update_button"
         android:layout_width="match_parent"
