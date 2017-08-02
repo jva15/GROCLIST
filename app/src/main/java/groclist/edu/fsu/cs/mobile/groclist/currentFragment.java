@@ -94,12 +94,12 @@ public class currentFragment extends Fragment implements View.OnClickListener {
         listView.setAdapter(null);
         listView.deferNotifyDataSetChanged();
 
-        /*
-        Uri uri;
+
         //set liststatus=1
         ContentValues values= new ContentValues();
-        values.put(MyContentProvider. ?, 1); //not sure how to access liststatus since I only see it in private SQL_CREATE_MAIN
-        uri = getContext().getContentResolver().update(MyContentProvider.CONTENT_URI, values, "LISTSTATUS = ?", {"1"});
-*/
+        values.put("LISTSTATUS", 1); //not sure how to access liststatus since I only see it in private SQL_CREATE_MAIN
+        String[] liststatus = {"0"};
+        getContext().getContentResolver().update(MyContentProvider.CONTENT_URI, values, "LISTSTATUS = ?", liststatus);
+
     }
 }
