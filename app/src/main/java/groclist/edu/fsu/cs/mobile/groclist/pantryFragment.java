@@ -22,11 +22,6 @@ public class pantryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO:
-
-
-
-
 
     }
     public static pantryFragment newInstance(){

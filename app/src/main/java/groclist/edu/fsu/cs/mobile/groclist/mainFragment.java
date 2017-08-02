@@ -94,7 +94,7 @@ public class mainFragment extends Fragment {
 
 
         //Tally up the total expenses and display them
-        Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, totalcollumn, null, null, null);
+        Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, totalcollumn, "LISTSTATUS = 0", null, null);
         String str ="";
         if(C!=null)
         {
@@ -166,11 +166,11 @@ public class mainFragment extends Fragment {
                 //check the produce database and retreive name;
                 Cursor CURSOR = DATA.getQuotes("PLU = " + PLU);
                 ContentValues CVs = new ContentValues();
+
                 if (CURSOR != null && CURSOR.getCount() != 0) {
 
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
-
                     }
                     CURSOR.close();
                     Toast.makeText(getContext(), name + " added", Toast.LENGTH_LONG).show();
