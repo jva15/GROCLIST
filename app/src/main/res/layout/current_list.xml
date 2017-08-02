@@ -6,12 +6,20 @@
     android:name="groclist.edu.fsu.cs.mobile.groclist.currentFragment"
     tools:context="groclist.edu.fsu.cs.mobile.groclist.currentFragment">
 
+
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="CLEAR"
+       android:layout_marginLeft="290dp"
+       android:minHeight="0dp"
+       android:minWidth="0dp"
+       android:id="@+id/clear_button"/>
     <!-- Add View to display URLs -->
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/current_listview"
-        />
+        android:id="@+id/current_listview"/>
        <!-- android:entries= -->
 
     <TextView
