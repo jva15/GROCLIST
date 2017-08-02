@@ -75,9 +75,6 @@ public class currentFragment extends Fragment implements View.OnClickListener {
                 i++;
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, str);
-            listView.setBackgroundColor(778899);
-
-
             listView.setAdapter(adapter);
 
 

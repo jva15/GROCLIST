@@ -246,6 +246,15 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            FragmentManager m = getSupportFragmentManager();
+            FragmentTransaction tran = m.beginTransaction();
+
+            SettingsFragment sf = new SettingsFragment();
+            //tran.replace(R.id.main_frame, cf, "CURRENT_FRAG");
+            tran.replace(R.id.main_frame, sf);
+            tran.commit();
+
             return true;
         }
 
@@ -257,59 +266,38 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FragmentManager m = getSupportFragmentManager();
+        FragmentTransaction tran;
+
 
         if (id == R.id.current_cart) {
 
-            //check and see if the current fragment is mainFrag
-            Fragment f = this.getSupportFragmentManager().findFragmentByTag("MAIN_FRAG");
-
-            FragmentManager m = getSupportFragmentManager();
-            FragmentTransaction tran = m.beginTransaction();
-
+            tran = m.beginTransaction();
             currentFragment cf = currentFragment.newInstance();
-            //tran.replace(R.id.main_frame, cf, "CURRENT_FRAG");
             tran.replace(R.id.main_frame, cf);
-
-            //tran.addToBackStack(null);
-
-            //-m.beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("MAIN_FRAG")).commit();
-
-
-            //-tran.add(R.id.current_frame, cf, "CURRENT_FRAG");
             tran.commit();
 
 
         } else if (id == R.id.past_purchases) {
             //check to see if current frag is main_frag
-                FragmentManager m = getSupportFragmentManager();
-                FragmentTransaction tran = m.beginTransaction();
-
-                pastFragment pf = pastFragment.newInstance();
-
+            tran = m.beginTransaction();
+            pastFragment pf = pastFragment.newInstance();
             tran.replace(R.id.main_frame, pf);
-                tran.commit();
+            tran.commit();
 
 
 
         } else if (id == R.id.my_pantry) {
 
             //check to see if current frag is main_frag
-            FragmentManager m = getSupportFragmentManager();
-                FragmentTransaction tran = m.beginTransaction();
-
-                pantryFragment pf = pantryFragment.newInstance();
-
+            tran = m.beginTransaction();
+            pantryFragment pf = pantryFragment.newInstance();
             tran.replace(R.id.main_frame, pf);
-                tran.commit();
-
-
-
-
+            tran.commit();
         }
         else if(id==R.id.home_button){
             //checking to see if its in current_frag
-            FragmentManager m = getSupportFragmentManager();
-            FragmentTransaction tran = m.beginTransaction();
+            tran = m.beginTransaction();
             getlocations();
             Bundle addressitems = new Bundle();
             addressitems.putStringArrayList("address", addresses);
