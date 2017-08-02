@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Selection;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +86,6 @@ public class pastFragment extends Fragment {
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.past_list, container, false);
 
         Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
-        Spinner sp2 = (Spinner) ll.findViewById(R.id.spinner2);
         Button graphbutton = (Button) ll.findViewById(R.id.graph_update_button);
         ArrayList<String> places = new ArrayList<String>();
         String[] projection = {"LOCATION"};
@@ -101,7 +101,7 @@ public class pastFragment extends Fragment {
                 if (places.size() == 0) {
                     places.add(place);
                 } else {
-                    places.add(place);
+
                     for (int i = 0; i < places.size(); i++) {
 
                         if (places.get(i).equals(place)) break;
@@ -121,18 +121,35 @@ public class pastFragment extends Fragment {
         for (int i = 0; i < places.size(); i++) p[i] = places.get(i);
         ArrayAdapter<String> storeAdaptor = new ArrayAdapter<String>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, p);
-
-
         sp1.setAdapter(storeAdaptor);
-        sp2.setAdapter(storeAdaptor);
+
 
         projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
-        //cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
+        String nameselection;//where you put the spinner result
+        String locationselection;//
+        float[] monthslot1 = new float[12];
+        int month = 0;
+        float price = 0;/*
+        String[] selectionargs= {nameselection,locationselection};
+        cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, "DESCRIPTION = ? AND LOCATION LIKE %?%", selectionargs, "TIMESTAMP");
+        if(cursor!=null) {
+
+            while(cursor.moveToNext())
+            {
+                month=getmonthfromentry(cursor.getString(2));
+                price=cursor.getFloat(0);
+
+
+                monthslot[month-1]=price;
+
+            }
 
 
 
+            cursor.close();
+        }
 
-
+*/
         plot1 = (XYPlot) ll.findViewById(R.id.plot1);
         //plot2 = (XYPlot) getView().findViewById(R.id.plot2);
 

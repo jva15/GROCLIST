@@ -175,9 +175,9 @@ public class mainFragment extends Fragment {
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
                         //check for expirations
-                        if (CURSOR.getBlob(3) != null && CURSOR.getBlob(4) != null) {
+                        //if (CURSOR.getBlob(3) != null && CURSOR.getBlob(4) != null) {
                             upc = CURSOR.getInt(3) + ":" + CURSOR.getInt(4);
-                        }
+                        //}
                     }
                     CURSOR.close();
                     Toast.makeText(getContext(), name + " added", Toast.LENGTH_LONG).show();
