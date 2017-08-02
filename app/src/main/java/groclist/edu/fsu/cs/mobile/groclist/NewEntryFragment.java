@@ -87,6 +87,8 @@ public class NewEntryFragment extends Fragment {
                 {
                     mListener.oninsertnewEntry(itemname,itemprice);
 
+                } else {
+                    mListener.oninsertnewEntry("nulled", itemprice);
                 }
 
 

@@ -80,7 +80,6 @@ public class ExistingEntryFragment extends Fragment {
 
 
 
-        //TV.setText(mParam2);
 
 
         addbutton.setOnClickListener(new View.OnClickListener() {

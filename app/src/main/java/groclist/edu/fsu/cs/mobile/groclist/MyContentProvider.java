@@ -106,6 +106,7 @@ public class MyContentProvider extends ContentProvider {
                 "0"+c.get(Calendar.MONTH): ""+c.get(Calendar.MONTH));
         String YEAR = ""+(c.get(Calendar.YEAR));
 
+
         SimpleDateFormat sdf = new SimpleDateFormat(YEAR + "-" + MO + "-" + DD + " " + HH + ":" + MM + ":" + SS, Locale.getDefault());
         String date = sdf.format(new Date());
         values.put("TIMESTAMP",date);

@@ -38,6 +38,7 @@ public class mainFragment extends Fragment {
     String store = "";
     LocationManager lm;
     ArrayList<String> addresses = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class mainFragment extends Fragment {
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
     }
+
     public static mainFragment newInstance(){
         return new mainFragment();
     }
@@ -67,15 +69,15 @@ public class mainFragment extends Fragment {
         Button ADD_Button = (Button) view.findViewById(R.id.add_button);
         Spinner storeSpinner = (Spinner) view.findViewById(R.id.store);
 
+        //if addresses ar available, put in the spinner otherwise put "NONE"
         if (addresses == null) {
             addresses = new ArrayList<String>();
             addresses.add("NONE");
         }
+
         ArrayAdapter<String> storeAdaptor = new ArrayAdapter<String>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, addresses);
         storeSpinner.setAdapter(storeAdaptor);
-
-
         storeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -118,6 +120,7 @@ public class mainFragment extends Fragment {
                 //get loc ahead of time
                 Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 int PLU;
+                String upc = "0";
                 String name = "";
                 float price = 0;
                 int pound = 0;
@@ -134,6 +137,7 @@ public class mainFragment extends Fragment {
                 String PPPinp = priceperpoundinpute.getText().toString();
                 String LBSinp = poundsinput.getText().toString();
                 DatabaseAccess DATA = DatabaseAccess.getInstance(getContext());
+                //error checking
                 Boolean incomplete = false;
                 if (UPCinput.getText().toString().equals("")) {
                     UPCinput.setError("Please specify");
@@ -153,7 +157,6 @@ public class mainFragment extends Fragment {
                 }
 
                 PLU = Integer.parseInt(code);
-
                 //reset
                 priceperpoundinpute.setText("");
                 poundsinput.setText("");
@@ -163,7 +166,7 @@ public class mainFragment extends Fragment {
                 pound = Integer.parseInt(LBSinp);
                 total = pound * price;
 
-                //check the produce database and retreive name;
+                //check the produce database and retreive name
                 Cursor CURSOR = DATA.getQuotes("PLU = " + PLU);
                 ContentValues CVs = new ContentValues();
 
@@ -171,6 +174,10 @@ public class mainFragment extends Fragment {
 
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
+                        //check for expirations
+                        if (CURSOR.getBlob(3) != null && CURSOR.getBlob(4) != null) {
+                            upc = CURSOR.getInt(3) + ":" + CURSOR.getInt(4);
+                        }
                     }
                     CURSOR.close();
                     Toast.makeText(getContext(), name + " added", Toast.LENGTH_LONG).show();
@@ -190,7 +197,7 @@ public class mainFragment extends Fragment {
 
 
                 CVs.put("PLU", code);
-                CVs.put("UPC", 0);
+                CVs.put("UPC", upc);
                 CVs.put("PRICE", price);
                 CVs.put("DESCRIPTION", name);
                 CVs.put("LISTSTATUS", 0);
@@ -221,16 +228,6 @@ public class mainFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void setplace(String place);
     }

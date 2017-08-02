@@ -37,8 +37,8 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
         BarContent = entryI.getStringExtra("Content");
         BarFormat = entryI.getStringExtra("Format");
         location = entryI.getStringExtra("Place");
-        /*TODO: check if works
-        */
+
+
         exists = false;
         Cursor itemsearch = getContentResolver().query(MyContentProvider.CONTENT_URI,null,null,null,null);
 
@@ -101,6 +101,15 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
 
         // add Entry to user database
         ContentValues CV = new ContentValues();
+
+        if (BarFormat.equals("UPC_A") || BarFormat.equals("UPC_B")) {
+            pluorupc = 0;
+        } else if (BarFormat.equals("PLU")) {
+            pluorupc = 1;
+        } else {
+            pluorupc = 2;
+        }
+
         if(pluorupc==1){
             CV.put("PLU",BarContent);
         CV.put("UPC","0");}
@@ -108,17 +117,17 @@ public class EntryActivity extends AppCompatActivity implements ExistingEntryFra
             CV.put("UPC",BarContent);
             CV.put("PLU","0");}
 
-        //Uri testuri;
 
-        //
+        Log.i("entry", BarContent);
+        Log.i("entry", itemname);
+        Log.i("entry", itemprice + "");
         CV.put("LOCATION", location);
         CV.put("PRICE",itemprice);
         CV.put("DESCRIPTION",itemname);
         CV.put("TOTALPRICE",itemprice);
         CV.put("LISTSTATUS",0);
-        //testuri = getContentResolver().insert(MyContentProvider.CONTENT_URI,CV);
 
-
+        getContentResolver().insert(MyContentProvider.CONTENT_URI, CV);
 
         returntomain();
     }
