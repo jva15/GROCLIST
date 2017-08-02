@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.androidplot.Plot;
 import com.androidplot.xy.BoundaryMode;
@@ -110,7 +111,7 @@ public class pastFragment extends Fragment {
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.past_list, container, false);
 
         Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
-        Spinner sp2 = (Spinner) ll.findViewById(R.id.spinner2);
+
         ArrayList<String> places = new ArrayList<String>();
         String[] projection = {"LOCATION"};
         Cursor cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, null, null, null);
@@ -151,24 +152,29 @@ public class pastFragment extends Fragment {
         projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
         String nameselection;//where you put the spinner result
         String locationselection;//
-        float[] monthslot1 = new float[12];
+        /*
+        float[] monthslot = new float[12];
+        for(int i=0;i<12;i++)monthslot[i]=0;
         int month = 0;
-        float price = 0;/*
+        float price = 0;
         String[] selectionargs= {nameselection,locationselection};
-        cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, "DESCRIPTION = ? AND LOCATION LIKE %?%", selectionargs, "TIMESTAMP");
+        cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, "DESCRIPTION LIKE %?% AND LOCATION LIKE %?%", selectionargs, "TIMESTAMP");
         if(cursor!=null) {
+            if(cursor.getCount()!=0) {
+                while (cursor.moveToNext()) {
+                    month = getmonthfromentry(cursor.getString(2));
+                    price = cursor.getFloat(0);
 
-            while(cursor.moveToNext())
-            {
-                month=getmonthfromentry(cursor.getString(2));
-                price=cursor.getFloat(0);
 
+                    monthslot[month - 1] = price;
 
-                monthslot[month-1]=price;
+                }
+
 
             }
-
-
+            else{
+                Toast.makeText(getContext(),"Store/item not found.",Toast.LENGTH_SHORT).show();
+            }
 
             cursor.close();
         }
@@ -185,30 +191,28 @@ public class pastFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-        plot1.clear();
-        janVals = 0;
-        febVals = 0;
-        marVals = 0;
-        aprVals = 0;
-        mayVals = 0;
-        junVals = 0;
-        julVals = 0;
-        augVals = 0;
-        sepVals = 0;
-        octVals = 0;
-        novVals = 0;
-        decVals = 0;
-        lbsOritem = "Price/lbs";
-        currentYear = "2017";
+                plot1.clear();
+                janVals = 0;
+                febVals = 0;
+                marVals = 0;
+                aprVals = 0;
+                mayVals = 0;
+                junVals = 0;
+                julVals = 0;
+                augVals = 0;
+                sepVals = 0;
+                octVals = 0;
+                novVals = 0;
+                decVals = 0;
+                lbsOritem = "Price/lbs";
+                currentYear = "2017";
 
 
+                Number[] series1Numbers = {janVals, febVals, marVals, aprVals, mayVals,
+                        junVals, julVals, augVals, sepVals, octVals, novVals, decVals};
 
 
-        Number[] series1Numbers = {janVals, febVals, marVals, aprVals, mayVals,
-                junVals, julVals, augVals, sepVals, octVals, novVals, decVals};
-
-
-        XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), storeSearch.getText().toString());
+                XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), storeSearch.getText().toString());
 
         LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
 
@@ -216,15 +220,14 @@ public class pastFragment extends Fragment {
 
         plot1.addSeries(series1, series1Format);
 
-        plot1.setTitle(itemSearch.getText().toString() + " at " + storeSearch.getText().toString() + " in " + currentYear);
+                plot1.setTitle(itemSearch.getText().toString() + " at " + storeSearch.getText().toString() + " in " + currentYear);
 
         plot1.setDomainLabel("Month");
-        plot1.setRangeLabel(lbsOritem);
-        plot1.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);
+                plot1.setRangeLabel(lbsOritem);
+                plot1.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);
 
 
-
-        plot1.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
+                plot1.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
             @Override
             public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
                 int i = Math.round(((Number) obj).floatValue());
@@ -236,7 +239,7 @@ public class pastFragment extends Fragment {
 
                 return null;
             }
-        });
+                });
                 plot1.redraw();
 
             }
