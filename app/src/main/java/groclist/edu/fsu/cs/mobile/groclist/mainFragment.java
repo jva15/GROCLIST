@@ -117,13 +117,13 @@ public class mainFragment extends Fragment {
 
                 //get loc ahead of time
                 Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
+                int PLU;
                 String name = "";
                 float price = 0;
                 int pound = 0;
                 float total = 0;
                 String code = UPCinput.getText().toString();
-                int PLU = Integer.parseInt(code);
+
                 Location previouscoords;
                 Boolean permission_granted =
                         ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -152,6 +152,8 @@ public class mainFragment extends Fragment {
                     return;
                 }
 
+                PLU = Integer.parseInt(code);
+
                 //reset
                 priceperpoundinpute.setText("");
                 poundsinput.setText("");
@@ -165,7 +167,7 @@ public class mainFragment extends Fragment {
                 Cursor CURSOR = DATA.getQuotes("PLU = " + PLU);
                 ContentValues CVs = new ContentValues();
                 if (CURSOR != null && CURSOR.getCount() != 0) {
-                    
+
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
 
