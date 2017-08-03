@@ -113,7 +113,7 @@ public class pastFragment extends Fragment {
         itemSearch = ll.findViewById(R.id.graph_item_select);
         updateButton = ll.findViewById(R.id.graph_update_button);
 
-        Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
+        final Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
 
         ArrayList<String> places = new ArrayList<String>();
         String[] projection = {"LOCATION"};
@@ -151,24 +151,30 @@ public class pastFragment extends Fragment {
                 R.layout.support_simple_spinner_dropdown_item, p);
         sp1.setAdapter(storeAdaptor);
 
+        plot1 = ll.findViewById(R.id.plot1);
+        plot1.setTitle("");
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
+        String[] nprojection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
         String nameselection;//where you put the spinner result
         String locationselection;//
 
-        /*
+
         final float[] monthslot = new float[12];
         for(int i=0;i<12;i++)monthslot[i]=0;
         int month = 0;
         float price = 0;
-        String[] selectionargs= {itemSearch.getText().toString(),sp1.getSelectedItem().toString()};
-        cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, "DESCRIPTION LIKE %?% AND LOCATION LIKE %?%", selectionargs, "TIMESTAMP");
-        if(cursor!=null) {
-            if(cursor.getCount()!=0) {
+        String[] selectionargs= {itemSearch.getText().toString(),"target"};//sp1.getSelectedItem().toString()};
+        String select= itemSearch.getText().toString();
+                Cursor kursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, nprojection, "DESCRIPTION LIKE '%"+select+"%' AND LOCATION LIKE '%target%'", null, "TIMESTAMP");
+        if(kursor!=null) {
+            if(kursor.getCount()!=0) {
                 updateFlag = true;
-                while (cursor.moveToNext()) {
-                    month = getmonthfromentry(cursor.getString(2));
-                    price = cursor.getFloat(0);
+                while (kursor.moveToNext()) {
+                    month = getmonthfromentry(kursor.getString(2));
+                    price = kursor.getFloat(0);
 
                     if(monthslot[month - 1] == 0) {
                         monthslot[month - 1] = price;
@@ -185,30 +191,26 @@ public class pastFragment extends Fragment {
                 Toast.makeText(getContext(),"Store/item not found.",Toast.LENGTH_SHORT).show();
             }
 
-            cursor.close();
+            kursor.close();
         }
-        */
 
 
-        plot1 = ll.findViewById(R.id.plot1);
-        plot1.setTitle("");
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
+
+            if(updateFlag == true) {
                 plot1.clear();
-                janVals = 0;//monthslot[0];
-                febVals = 0;//monthslot[1];
-                marVals = 0;//monthslot[2];
-                aprVals = 0;//monthslot[3];
-                mayVals = 0;//monthslot[4];
-                junVals = 0;//monthslot[5];
-                julVals = 0;//monthslot[6];
-                augVals = 0;//monthslot[7];
-                sepVals = 0;//monthslot[8];
-                octVals = 0;//monthslot[9];
-                novVals = 0;//monthslot[10];
-                decVals = 0;//monthslot[11];
+                janVals = monthslot[0];
+                febVals = monthslot[1];
+                marVals = monthslot[2];
+                aprVals = monthslot[3];
+                mayVals = monthslot[4];
+                junVals = monthslot[5];
+                julVals = monthslot[6];
+                augVals = monthslot[7];
+                sepVals = monthslot[8];
+                octVals = monthslot[9];
+                novVals = monthslot[10];
+                decVals = monthslot[11];
                 lbsOritem = "Price/lbs";
                 currentYear = "2017";
 
@@ -217,40 +219,41 @@ public class pastFragment extends Fragment {
                         junVals, julVals, augVals, sepVals, octVals, novVals, decVals};
 
 
-                XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), storeSearch.getText().toString());
+                XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), sp1.getSelectedItem().toString());
 
-        LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
+                LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
 
 
+                plot1.addSeries(series1, series1Format);
 
-        plot1.addSeries(series1, series1Format);
+                plot1.setTitle(itemSearch.getText().toString() + " at " + sp1.getSelectedItem().toString() + " in " + currentYear);
 
-                plot1.setTitle(itemSearch.getText().toString() + " at " + storeSearch.getText().toString() + " in " + currentYear);
-
-        plot1.setDomainLabel("Month");
+                plot1.setDomainLabel("Month");
                 plot1.setRangeLabel(lbsOritem);
                 plot1.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);
 
 
                 plot1.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
-            @Override
-            public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-                int i = Math.round(((Number) obj).floatValue());
-                return toAppendTo.append(domainLabels[i]);
-            }
+                    @Override
+                    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+                        int i = Math.round(((Number) obj).floatValue());
+                        return toAppendTo.append(domainLabels[i]);
+                    }
 
-            @Override
-            public Object parseObject(String source, ParsePosition pos) {
+                    @Override
+                    public Object parseObject(String source, ParsePosition pos) {
 
-                return null;
-            }
+                        return null;
+                    }
                 });
                 plot1.redraw();
+            }
 
             }
         });
 
         return ll;
+
     }
 
 }
