@@ -203,6 +203,9 @@ public class mainFragment extends Fragment {
                     CVs.put("LISTSTATUS", 0);
                     CVs.put("TOTALPRICE", total);
                     getActivity().getContentResolver().insert(MyContentProvider.CONTENT_URI, CVs);
+                } else {
+                    Toast.makeText(getContext(), "Invalid PLU", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
