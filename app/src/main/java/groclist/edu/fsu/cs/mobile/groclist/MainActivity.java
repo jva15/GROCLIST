@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> addresses = new ArrayList<String>(0);
     Boolean locationset = false;
     String store = "";
-
+    FragmentManager m = getSupportFragmentManager();
+    FragmentTransaction tran;
     LocationListener LL = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -105,15 +106,16 @@ public class MainActivity extends AppCompatActivity
                     Log.i("coords", addresses.get(i));
                 }
             }
-            FragmentManager m = getSupportFragmentManager();
-            FragmentTransaction tran = m.beginTransaction();
+            tran = m.beginTransaction();
             //showing mainFragment at first
             Bundle addressitems = new Bundle();
             addressitems.putStringArrayList("address", addresses);
             mainFragment mf = mainFragment.newInstance();
             mf.setArguments(addressitems);
-            tran.add(R.id.main_frame, mf, "MAIN_FRAG");
-            tran.commit();
+
+            tran.replace(R.id.main_frame, mf);
+
+            tran.commitNowAllowingStateLoss();
             locationset = true;
 
 
@@ -134,24 +136,14 @@ public class MainActivity extends AppCompatActivity
             case REQUEST: {
                 //relaunch main frag with items for the spinner.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    while (!locationset)//wait for current frag to load;
+                    if (!locationset)//wait for current frag to load;
                         getlocations();
-                   /* FragmentManager m = getSupportFragmentManager();
-                    FragmentTransaction tran = m.beginTransaction();
-                    Bundle addressitems = new Bundle();
-                    addressitems.putStringArrayList("address", addresses);
-                    mainFragment mf = mainFragment.newInstance();
-                    mf.setArguments(addressitems);
-                    tran.replace(R.id.main_frame, mf);
-                    tran.commit();
-*/
+
 
                 }
             }
         }
     }
-
-
     public void Scanitems(View V)
     {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
@@ -183,10 +175,6 @@ public class MainActivity extends AppCompatActivity
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
-
-
-
-
     }
 
 
@@ -198,6 +186,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        m = getSupportFragmentManager();
         getlocations();
 
 
@@ -248,8 +237,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            FragmentManager m = getSupportFragmentManager();
-            FragmentTransaction tran = m.beginTransaction();
+
+            tran = m.beginTransaction();
 
             SettingsFragment sf = new SettingsFragment();
             //tran.replace(R.id.main_frame, cf, "CURRENT_FRAG");
@@ -267,8 +256,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager m = getSupportFragmentManager();
-        FragmentTransaction tran;
 
 
         if (id == R.id.current_cart) {
@@ -298,16 +285,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.home_button){
             //checking to see if its in current_frag
-            tran = m.beginTransaction();
             getlocations();
-            Bundle addressitems = new Bundle();
-            addressitems.putStringArrayList("address", addresses);
-            mainFragment mf = mainFragment.newInstance();
-            mf.setArguments(addressitems);
-
-            tran.replace(R.id.main_frame, mf);
-            tran.commit();
-
 
 
         }

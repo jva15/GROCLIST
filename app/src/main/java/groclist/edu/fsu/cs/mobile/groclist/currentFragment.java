@@ -61,7 +61,7 @@ public class currentFragment extends Fragment implements View.OnClickListener {
 
         listView = (ListView) view.findViewById(R.id.current_listview);
         String[] collumns = new String[]{"DESCRIPTION", "TOTALPRICE", "TIMESTAMP", "LOCATION"};
-        Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI,collumns,"LISTSTATUS=0",null,null);
+        Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, collumns, "LISTSTATUS=0", null, null);
         List<String> str=  new ArrayList<String>();
 
         int i=0;
