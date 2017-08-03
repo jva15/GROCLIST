@@ -61,7 +61,7 @@ public class currentFragment extends Fragment implements View.OnClickListener {
 
         listView = (ListView) view.findViewById(R.id.current_listview);
         String[] collumns = new String[]{"DESCRIPTION", "TOTALPRICE", "TIMESTAMP", "LOCATION"};
-        Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI,collumns,null,null,null);
+        Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, collumns, "LISTSTATUS=0", null, null);
         List<String> str=  new ArrayList<String>();
 
         int i=0;
@@ -87,16 +87,18 @@ public class currentFragment extends Fragment implements View.OnClickListener {
 
 
     public void onClick(View v) {
-        //clear the listview - should be working
-        listView.setAdapter(null);
-        listView.deferNotifyDataSetChanged();
+
 
 
         //set liststatus=1
         ContentValues values= new ContentValues();
-        values.put("LISTSTATUS", 1); //not sure how to access liststatus since I only see it in private SQL_CREATE_MAIN
+        values.put("LISTSTATUS", 1);
         String[] liststatus = {"0"};
         getContext().getContentResolver().update(MyContentProvider.CONTENT_URI, values, "LISTSTATUS = ?", liststatus);
+
+        //clear the listview - should be working
+        listView.setAdapter(null);
+        listView.deferNotifyDataSetChanged();
 
     }
 }

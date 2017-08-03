@@ -41,18 +41,19 @@ import java.util.List;
 public class pastFragment extends Fragment {
     private XYPlot plot1;
     String lbsOritem;
-    int janVals;
-    int febVals;
-    int marVals;
-    int aprVals;
-    int mayVals;
-    int junVals;
-    int julVals;
-    int augVals;
-    int sepVals;
-    int octVals;
-    int novVals;
-    int decVals;
+    Boolean updateFlag = false;
+    float janVals;
+    float febVals;
+    float marVals;
+    float aprVals;
+    float mayVals;
+    float junVals;
+    float julVals;
+    float augVals;
+    float sepVals;
+    float octVals;
+    float novVals;
+    float decVals;
     String currentYear;
     Button updateButton;
     EditText itemSearch;
@@ -109,6 +110,8 @@ public class pastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout ll = (LinearLayout )inflater.inflate(R.layout.past_list, container, false);
+        itemSearch = ll.findViewById(R.id.graph_item_select);
+        updateButton = ll.findViewById(R.id.graph_update_button);
 
         Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
 
@@ -152,21 +155,27 @@ public class pastFragment extends Fragment {
         projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
         String nameselection;//where you put the spinner result
         String locationselection;//
+
         /*
-        float[] monthslot = new float[12];
+        final float[] monthslot = new float[12];
         for(int i=0;i<12;i++)monthslot[i]=0;
         int month = 0;
         float price = 0;
-        String[] selectionargs= {nameselection,locationselection};
+        String[] selectionargs= {itemSearch.getText().toString(),sp1.getSelectedItem().toString()};
         cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, "DESCRIPTION LIKE %?% AND LOCATION LIKE %?%", selectionargs, "TIMESTAMP");
         if(cursor!=null) {
             if(cursor.getCount()!=0) {
+                updateFlag = true;
                 while (cursor.moveToNext()) {
                     month = getmonthfromentry(cursor.getString(2));
                     price = cursor.getFloat(0);
 
-
-                    monthslot[month - 1] = price;
+                    if(monthslot[month - 1] == 0) {
+                        monthslot[month - 1] = price;
+                    }
+                    else{
+                        monthslot[month - 1] = (price + monthslot[month - 1])/2;
+                    }
 
                 }
 
@@ -178,13 +187,9 @@ public class pastFragment extends Fragment {
 
             cursor.close();
         }
+        */
 
-*/
-        plot1 = (XYPlot) ll.findViewById(R.id.plot1);
 
-        itemSearch = ll.findViewById(R.id.graph_item_select);
-        storeSearch = ll.findViewById(R.id.graph_store_select);
-        updateButton = ll.findViewById(R.id.graph_update_button);
         plot1 = ll.findViewById(R.id.plot1);
         plot1.setTitle("");
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -192,18 +197,18 @@ public class pastFragment extends Fragment {
             public void onClick(View view) {
 
                 plot1.clear();
-                janVals = 0;
-                febVals = 0;
-                marVals = 0;
-                aprVals = 0;
-                mayVals = 0;
-                junVals = 0;
-                julVals = 0;
-                augVals = 0;
-                sepVals = 0;
-                octVals = 0;
-                novVals = 0;
-                decVals = 0;
+                janVals = 0;//monthslot[0];
+                febVals = 0;//monthslot[1];
+                marVals = 0;//monthslot[2];
+                aprVals = 0;//monthslot[3];
+                mayVals = 0;//monthslot[4];
+                junVals = 0;//monthslot[5];
+                julVals = 0;//monthslot[6];
+                augVals = 0;//monthslot[7];
+                sepVals = 0;//monthslot[8];
+                octVals = 0;//monthslot[9];
+                novVals = 0;//monthslot[10];
+                decVals = 0;//monthslot[11];
                 lbsOritem = "Price/lbs";
                 currentYear = "2017";
 

@@ -138,22 +138,12 @@ public class MainActivity extends AppCompatActivity
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!locationset)//wait for current frag to load;
                         getlocations();
-                   /* FragmentManager m = getSupportFragmentManager();
-                    FragmentTransaction tran = m.beginTransaction();
-                    Bundle addressitems = new Bundle();
-                    addressitems.putStringArrayList("address", addresses);
-                    mainFragment mf = mainFragment.newInstance();
-                    mf.setArguments(addressitems);
-                    tran.replace(R.id.main_frame, mf);
-                    tran.commit();
-*/
+
 
                 }
             }
         }
     }
-
-
     public void Scanitems(View V)
     {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
@@ -185,10 +175,6 @@ public class MainActivity extends AppCompatActivity
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
-
-
-
-
     }
 
 
@@ -200,6 +186,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        m = getSupportFragmentManager();
         getlocations();
 
 
@@ -304,7 +291,6 @@ public class MainActivity extends AppCompatActivity
             addressitems.putStringArrayList("address", addresses);
             mainFragment mf = mainFragment.newInstance();
             mf.setArguments(addressitems);
-
             tran.replace(R.id.main_frame, mf);
             tran.commit();
 
