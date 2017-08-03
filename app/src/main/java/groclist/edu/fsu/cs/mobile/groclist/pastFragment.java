@@ -93,17 +93,20 @@ public class pastFragment extends Fragment {
 
     private int getdayentry(String str)//gets day from cursor result from "LOCATION"
     {
-        return Integer.getInteger(str.substring(8, 10));
+        return Integer.parseInt(str.substring(8, 10));
     }
 
     private int getmonthfromentry(String str)//gets month from cursor result from "LOCATION"
     {
-        return Integer.getInteger(str.substring(5, 7));
+        Log.i("M", str);
+        Log.i("M", str.substring(5, 7));
+        str = str.substring(5, 7);
+        return Integer.parseInt(str);
     }
 
     private int getyearfromentry(String str)//gets year from cursor result from "LOCATION"
     {
-        return Integer.getInteger(str.substring(0, 4));
+        return Integer.parseInt(str.substring(0, 4));
     }
 
     @Override
@@ -133,7 +136,7 @@ public class pastFragment extends Fragment {
                     for (int i = 0; i < places.size(); i++) {
 
                         if (places.get(i).equals(place)) break;
-                        else {
+                        else if (i == places.size() - 1) {
 
                             places.add(place);
                             break;
@@ -156,8 +159,8 @@ public class pastFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-        String[] nprojection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
+                String placename = sp1.getSelectedItem().toString();
+                String[] nprojection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
         String nameselection;//where you put the spinner result
         String locationselection;//
 
@@ -166,15 +169,18 @@ public class pastFragment extends Fragment {
         for(int i=0;i<12;i++)monthslot[i]=0;
         int month = 0;
         float price = 0;
-        String[] selectionargs= {itemSearch.getText().toString(),"target"};//sp1.getSelectedItem().toString()};
-        String select= itemSearch.getText().toString();
-                Cursor kursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, nprojection, "DESCRIPTION LIKE '%"+select+"%' AND LOCATION LIKE '%target%'", null, "TIMESTAMP");
-        if(kursor!=null) {
-            if(kursor.getCount()!=0) {
+                //String[] selectionargs= {itemSearch.getText().toString(),placename};//sp1.getSelectedItem().toString()};
+                String select = itemSearch.getText().toString();
+                Cursor kursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, nprojection, "DESCRIPTION LIKE '%" + select + "%' AND LOCATION LIKE '%" + placename + "%'", null, "TIMESTAMP");
+                if (kursor != null) {
+
+                    if (kursor.getCount() != 0) {
                 updateFlag = true;
-                while (kursor.moveToNext()) {
-                    month = getmonthfromentry(kursor.getString(2));
-                    price = kursor.getFloat(0);
+                        while (kursor.moveToNext()) {
+
+                            Log.i("month", kursor.getString(2));
+                            month = getmonthfromentry(kursor.getString(2));
+                            price = kursor.getFloat(0);
 
                     if(monthslot[month - 1] == 0) {
                         monthslot[month - 1] = price;
@@ -191,26 +197,24 @@ public class pastFragment extends Fragment {
                 Toast.makeText(getContext(),"Store/item not found.",Toast.LENGTH_SHORT).show();
             }
 
-            kursor.close();
+                    kursor.close();
         }
 
 
-
-
-            if(updateFlag == true) {
+                if (updateFlag == true) {
                 plot1.clear();
-                janVals = monthslot[0];
-                febVals = monthslot[1];
-                marVals = monthslot[2];
-                aprVals = monthslot[3];
-                mayVals = monthslot[4];
-                junVals = monthslot[5];
-                julVals = monthslot[6];
-                augVals = monthslot[7];
-                sepVals = monthslot[8];
-                octVals = monthslot[9];
-                novVals = monthslot[10];
-                decVals = monthslot[11];
+                    janVals = monthslot[0];
+                    febVals = monthslot[1];
+                    marVals = monthslot[2];
+                    aprVals = monthslot[3];
+                    mayVals = monthslot[4];
+                    junVals = monthslot[5];
+                    julVals = monthslot[6];
+                    augVals = monthslot[7];
+                    sepVals = monthslot[8];
+                    octVals = monthslot[9];
+                    novVals = monthslot[10];
+                    decVals = monthslot[11];
                 lbsOritem = "Price/lbs";
                 currentYear = "2017";
 
@@ -219,16 +223,16 @@ public class pastFragment extends Fragment {
                         junVals, julVals, augVals, sepVals, octVals, novVals, decVals};
 
 
-                XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), sp1.getSelectedItem().toString());
+                    XYSeries series1 = new SimpleXYSeries(Arrays.asList(monthNums), Arrays.asList(series1Numbers), sp1.getSelectedItem().toString());
 
-                LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
+                    LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
 
 
-                plot1.addSeries(series1, series1Format);
+                    plot1.addSeries(series1, series1Format);
 
-                plot1.setTitle(itemSearch.getText().toString() + " at " + sp1.getSelectedItem().toString() + " in " + currentYear);
+                    plot1.setTitle(itemSearch.getText().toString() + " at " + sp1.getSelectedItem().toString() + " in " + currentYear);
 
-                plot1.setDomainLabel("Month");
+                    plot1.setDomainLabel("Month");
                 plot1.setRangeLabel(lbsOritem);
                 plot1.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);
 
@@ -247,7 +251,7 @@ public class pastFragment extends Fragment {
                     }
                 });
                 plot1.redraw();
-            }
+                }
 
             }
         });

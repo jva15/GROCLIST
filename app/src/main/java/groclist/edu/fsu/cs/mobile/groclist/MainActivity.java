@@ -285,15 +285,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.home_button){
             //checking to see if its in current_frag
-            tran = m.beginTransaction();
             getlocations();
-            Bundle addressitems = new Bundle();
-            addressitems.putStringArrayList("address", addresses);
-            mainFragment mf = mainFragment.newInstance();
-            mf.setArguments(addressitems);
-            tran.replace(R.id.main_frame, mf);
-            tran.commit();
-
 
 
         }
