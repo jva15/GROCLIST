@@ -12,9 +12,11 @@
         android:id="@+id/pantry_listview"/>
     <!-- android:entries= -->
 
-    <!--
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You are in pantry_list"/>-->
+        android:text="Touch to delete"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

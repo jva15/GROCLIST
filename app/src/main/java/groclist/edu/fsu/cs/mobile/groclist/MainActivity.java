@@ -1,8 +1,6 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
-import android.*;
 import android.Manifest;
-import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,10 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContentResolverCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -29,19 +24,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.Fragment;
-
-import groclist.edu.fsu.cs.mobile.groclist.mainFragment;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import groclist.edu.fsu.cs.mobile.groclist.IntentIntegrator;
-import groclist.edu.fsu.cs.mobile.groclist.IntentResult;
 
 
 public class MainActivity extends AppCompatActivity
@@ -112,9 +100,7 @@ public class MainActivity extends AppCompatActivity
             addressitems.putStringArrayList("address", addresses);
             mainFragment mf = mainFragment.newInstance();
             mf.setArguments(addressitems);
-
             tran.replace(R.id.main_frame, mf);
-
             tran.commitNowAllowingStateLoss();
             locationset = true;
 
@@ -122,9 +108,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
                     , REQUEST);
-
-            /*ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}
-                    , REQUEST);*/
 
         }
 

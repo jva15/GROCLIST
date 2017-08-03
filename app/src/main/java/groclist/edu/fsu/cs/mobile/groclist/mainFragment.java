@@ -94,7 +94,6 @@ public class mainFragment extends Fragment {
             }
         });
 
-
         //Tally up the total expenses and display them
         Cursor C = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, totalcollumn, "LISTSTATUS = 0", null, null);
         String str ="";
@@ -110,12 +109,10 @@ public class mainFragment extends Fragment {
         str = ""+total;
         TP.setText(str);
 
-
         //code for the second set of fields
         ADD_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 //get loc ahead of time
                 Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -131,7 +128,6 @@ public class mainFragment extends Fragment {
                 Boolean permission_granted =
                         ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                                 == PackageManager.PERMISSION_GRANTED;
-
 
                 //retrieve
                 String PPPinp = priceperpoundinpute.getText().toString();
@@ -174,10 +170,8 @@ public class mainFragment extends Fragment {
 
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
-                        //check for expirations
-                        //if (CURSOR.getBlob(3) != null && CURSOR.getBlob(4) != null) {
-                            upc = CURSOR.getInt(3) + ":" + CURSOR.getInt(4);
-                        //}
+                        upc = CURSOR.getInt(3) + ":" + CURSOR.getInt(4);
+
                     }
                     CURSOR.close();
                     Toast.makeText(getContext(), name + " added", Toast.LENGTH_LONG).show();

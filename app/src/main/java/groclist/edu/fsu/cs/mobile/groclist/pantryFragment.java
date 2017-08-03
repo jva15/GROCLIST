@@ -1,12 +1,14 @@
 package groclist.edu.fsu.cs.mobile.groclist;
 
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -34,7 +36,7 @@ public class pantryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.pantry_list, container, false);
 
-        ListView listView = (ListView) view.findViewById(R.id.pantry_listview);
+        final ListView listView = (ListView) view.findViewById(R.id.pantry_listview);
         String[] collumns = new String[]{"DESCRIPTION", "TOTALPRICE", "TIMESTAMP"};
         String clause = "LISTSTATUS = ?";
         String[] selargs = {"1"};
@@ -56,7 +58,28 @@ public class pantryFragment extends Fragment {
             C.close();
         }
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ContentValues CV = new ContentValues();
+                CV.put("LISTSTATUS", 1);
+
+                String date = getdate(adapterView.getItemAtPosition(i).toString());
+                adapterView.removeViewInLayout(view);
+                getActivity().getContentResolver().update(MyContentProvider.CONTENT_URI, CV, "TIMESTAMP = '" + date + "'", null);
+                listView.deferNotifyDataSetChanged();
+            }
+        });
+
         return view;
+    }
+
+    private String getdate(String str)//theres both a date AND a time:this extracts the time
+    {
+        str = str.substring(str.indexOf(":"));
+        str = str.substring(str.indexOf(":") + 2);
+        str = str.substring(str.indexOf(":") + 2);
+        return str;
     }
 
 }

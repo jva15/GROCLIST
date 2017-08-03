@@ -4,9 +4,7 @@ package groclist.edu.fsu.cs.mobile.groclist;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.Selection;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,28 +12,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.androidplot.Plot;
-import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.StepMode;
 import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
-
-import java.io.StringBufferInputStream;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class pastFragment extends Fragment {
@@ -86,27 +76,12 @@ public class pastFragment extends Fragment {
         return str.substring(0, str.indexOf(":"));
     }
 
-    private String getdatefromentryonly(String str)//theres both a date AND a time:this extracts the time
-    {
-        return str.substring(0, 10);
-    }
-
-    private int getdayentry(String str)//gets day from cursor result from "LOCATION"
-    {
-        return Integer.parseInt(str.substring(8, 10));
-    }
-
     private int getmonthfromentry(String str)//gets month from cursor result from "LOCATION"
     {
         Log.i("M", str);
         Log.i("M", str.substring(5, 7));
         str = str.substring(5, 7);
         return Integer.parseInt(str);
-    }
-
-    private int getyearfromentry(String str)//gets year from cursor result from "LOCATION"
-    {
-        return Integer.parseInt(str.substring(0, 4));
     }
 
     @Override
@@ -161,15 +136,12 @@ public class pastFragment extends Fragment {
             public void onClick(View view) {
                 String placename = sp1.getSelectedItem().toString();
                 String[] nprojection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
-        String nameselection;//where you put the spinner result
-        String locationselection;//
 
 
         final float[] monthslot = new float[12];
         for(int i=0;i<12;i++)monthslot[i]=0;
         int month = 0;
         float price = 0;
-                //String[] selectionargs= {itemSearch.getText().toString(),placename};//sp1.getSelectedItem().toString()};
                 String select = itemSearch.getText().toString();
                 Cursor kursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, nprojection, "DESCRIPTION LIKE '%" + select + "%' AND LOCATION LIKE '%" + placename + "%'", null, "TIMESTAMP");
                 if (kursor != null) {
