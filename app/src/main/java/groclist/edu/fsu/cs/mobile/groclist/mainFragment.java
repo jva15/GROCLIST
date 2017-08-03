@@ -125,6 +125,7 @@ public class mainFragment extends Fragment {
                 float price = 0;
                 int pound = 0;
                 float total = 0;
+                boolean valid;
                 String code = UPCinput.getText().toString();
 
                 Location previouscoords;
@@ -171,6 +172,7 @@ public class mainFragment extends Fragment {
                 ContentValues CVs = new ContentValues();
 
                 if (CURSOR != null && CURSOR.getCount() != 0) {
+                    valid=true;
 
                     while (CURSOR.moveToNext()) {
                         name = CURSOR.getString(2) + " " + CURSOR.getString(1);
@@ -181,7 +183,10 @@ public class mainFragment extends Fragment {
                     }
                     CURSOR.close();
                     Toast.makeText(getContext(), name + " added", Toast.LENGTH_LONG).show();
-                } else Toast.makeText(getContext(), "invalid PLU", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "invalid PLU", Toast.LENGTH_LONG).show();
+                    valid=false;
+                }
                 DATA.close();
 
                 //place values into user database
@@ -196,13 +201,15 @@ public class mainFragment extends Fragment {
                 }
 
 
-                CVs.put("PLU", code);
-                CVs.put("UPC", upc);
-                CVs.put("PRICE", price);
-                CVs.put("DESCRIPTION", name);
-                CVs.put("LISTSTATUS", 0);
-                CVs.put("TOTALPRICE", total);
-                getActivity().getContentResolver().insert(MyContentProvider.CONTENT_URI, CVs);
+                if(valid==true) {
+                    CVs.put("PLU", code);
+                    CVs.put("UPC", upc);
+                    CVs.put("PRICE", price);
+                    CVs.put("DESCRIPTION", name);
+                    CVs.put("LISTSTATUS", 0);
+                    CVs.put("TOTALPRICE", total);
+                    getActivity().getContentResolver().insert(MyContentProvider.CONTENT_URI, CVs);
+                }
 
             }
         });
