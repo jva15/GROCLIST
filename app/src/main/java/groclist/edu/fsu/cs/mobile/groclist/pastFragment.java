@@ -113,7 +113,7 @@ public class pastFragment extends Fragment {
         itemSearch = ll.findViewById(R.id.graph_item_select);
         updateButton = ll.findViewById(R.id.graph_update_button);
 
-        Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
+        final Spinner sp1 = (Spinner) ll.findViewById(R.id.spinner1);
 
         ArrayList<String> places = new ArrayList<String>();
         String[] projection = {"LOCATION"};
@@ -151,24 +151,29 @@ public class pastFragment extends Fragment {
                 R.layout.support_simple_spinner_dropdown_item, p);
         sp1.setAdapter(storeAdaptor);
 
+        plot1 = ll.findViewById(R.id.plot1);
+        plot1.setTitle("");
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        projection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
+        String[] nprojection = new String[]{"PRICE", "LOCATION", "TIMESTAMP"};
         String nameselection;//where you put the spinner result
         String locationselection;//
 
-        /*
+
         final float[] monthslot = new float[12];
         for(int i=0;i<12;i++)monthslot[i]=0;
         int month = 0;
         float price = 0;
-        String[] selectionargs= {itemSearch.getText().toString(),sp1.getSelectedItem().toString()};
-        cursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, projection, "DESCRIPTION LIKE %?% AND LOCATION LIKE %?%", selectionargs, "TIMESTAMP");
-        if(cursor!=null) {
-            if(cursor.getCount()!=0) {
+        String[] selectionargs= {itemSearch.getText().toString(),"target"};//sp1.getSelectedItem().toString()};
+        Cursor kursor = getActivity().getContentResolver().query(MyContentProvider.CONTENT_URI, nprojection, "DESCRIPTION LIKE '%?%' AND LOCATION LIKE '%?%'", selectionargs, "TIMESTAMP");
+        if(kursor!=null) {
+            if(kursor.getCount()!=0) {
                 updateFlag = true;
-                while (cursor.moveToNext()) {
-                    month = getmonthfromentry(cursor.getString(2));
-                    price = cursor.getFloat(0);
+                while (kursor.moveToNext()) {
+                    month = getmonthfromentry(kursor.getString(2));
+                    price = kursor.getFloat(0);
 
                     if(monthslot[month - 1] == 0) {
                         monthslot[month - 1] = price;
@@ -185,16 +190,12 @@ public class pastFragment extends Fragment {
                 Toast.makeText(getContext(),"Store/item not found.",Toast.LENGTH_SHORT).show();
             }
 
-            cursor.close();
+            kursor.close();
         }
-        */
 
 
-        plot1 = ll.findViewById(R.id.plot1);
-        plot1.setTitle("");
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+
 
                 plot1.clear();
                 janVals =  0;//monthslot[0];
